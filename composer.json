@@ -1,0 +1,21 @@
+{
+    "name": "kunoichi/virtual-member",
+    "description": "Add virtual member post type for WordPress.",
+    "type": "library",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "fumikito",
+            "email": "fumikito@kunoichiwp.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "hametuha/singleton-pattern": "^1.1"
+    },
+    "autoload": {
+        "psr-0": {
+            "Kunoichi\\VirtualMember": "src"
+        }
+    }
+}

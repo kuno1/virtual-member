@@ -1,0 +1,56 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: kvm\n"
+"POT-Creation-Date: 2020-01-09 19:58+0900\n"
+"PO-Revision-Date: 2020-01-09 19:55+0900\n"
+"Last-Translator: Takahashi Fumiki <takahashi.fumiki@hametuha.co.jp>\n"
+"Language-Team: Kunoichi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.4\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: en_US\n"
+"X-Poedit-KeywordsList: __;_e;_x;esc_html__;esc_html_e\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: vendor\n"
+
+#: src/Kunoichi/VirtualMember/PostType.php:46
+msgid "Staff"
+msgstr ""
+
+#: src/Kunoichi/VirtualMember/PostType.php:48
+msgid "Profile Picture"
+msgstr ""
+
+#: src/Kunoichi/VirtualMember/PostType.php:49
+msgid "Set profile picture"
+msgstr ""
+
+#: src/Kunoichi/VirtualMember/PostType.php:50
+msgid "Remove profile picture"
+msgstr ""
+
+#: src/Kunoichi/VirtualMember/PostType.php:51
+msgid "Use as profile picture"
+msgstr ""
+
+#: src/Kunoichi/VirtualMember/PostType.php:70
+msgid "Group"
+msgstr ""
+
+#: src/Kunoichi/VirtualMember/PostType.php:115
+msgid "Not specify"
+msgstr ""
+
+#: src/Kunoichi/VirtualMember/PostType.php:126
+#, php-format
+msgid "%1$s(%2$s)"
+msgstr ""
+
+#: src/Kunoichi/VirtualMember/PostType.php:132
+#, php-format
+msgid "To change post author to %s, please specify."
+msgstr ""
