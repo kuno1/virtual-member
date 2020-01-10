@@ -12,6 +12,8 @@ use Hametuha\SingletonPattern\Singleton;
  */
 class PostType extends Singleton {
 
+    private static $is_activated = false;
+
 	protected $post_type = 'staff';
 
 	protected $taxonomy = 'member-group';
@@ -29,6 +31,7 @@ class PostType extends Singleton {
 		$po = sprintf( dirname( dirname( dirname( __DIR__ ) ) ) . '/languages/kvm-%s.mo', get_user_locale() );
 		load_textdomain( 'kvm', $po );
 		add_action( 'init', [ $this, 'register_post_type' ] );
+		self::$is_activated = true;
 	}
 
 	/**
@@ -167,6 +170,15 @@ class PostType extends Singleton {
 		$instance->set_setting( $settings, $post_type );
 		return $instance;
 	}
+
+	/**
+	 * Detect if this is active.
+     *
+     * @return bool
+	 */
+	public static function is_active() {
+	    return self::$is_activated;
+    }
 
 	/**
 	 * Get post type.
