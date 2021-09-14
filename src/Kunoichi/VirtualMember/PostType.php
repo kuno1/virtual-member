@@ -3,7 +3,10 @@
 namespace Kunoichi\VirtualMember;
 
 
-use Hametuha\SingletonPattern\Singleton;
+use Kunoichi\VirtualMember\Pattern\Singleton;
+use Kunoichi\VirtualMember\Ui\MemberEditor;
+use Kunoichi\VirtualMember\Ui\PublicScreen;
+use Kunoichi\VirtualMember\Ui\SettingScreen;
 
 /*
  * Post type.
@@ -12,15 +15,19 @@ use Hametuha\SingletonPattern\Singleton;
  */
 class PostType extends Singleton {
 
-    private static $is_activated = false;
+	private static $is_activated = false;
 
-	protected $post_type = 'staff';
+	protected $post_type = 'member';
 
-	protected $taxonomy = 'member-group';
+	/**
+	 * @var null|string[] Post types.
+	 */
+	protected $post_types_having_author = null;
 
-	protected $post_types_having_author = [];
-
-	protected $default_user = 0;
+	/**
+	 * @var int|null User ID.
+	 */
+	protected $default_user = null;
 
 	protected $args = [];
 
@@ -28,8 +35,15 @@ class PostType extends Singleton {
 	 * Constructor
 	 */
 	protected function init() {
-		$po = sprintf( dirname( dirname( dirname( __DIR__ ) ) ) . '/languages/kvm-%s.mo', get_user_locale() );
-		load_textdomain( 'kvm', $po );
+		if ( ! defined( '' ) ) {
+			$po = sprintf( dirname( dirname( dirname( __DIR__ ) ) ) . '/languages/kvm-%s.mo', get_user_locale() );
+			load_textdomain( 'kvm', $po );
+		}
+		// Register controllers.
+		SettingScreen::get_instance();
+		MemberEditor::get_instance();
+		PublicScreen::get_instance();
+		// Register post type.
 		add_action( 'init', [ $this, 'register_post_type' ] );
 		self::$is_activated = true;
 	}
@@ -42,21 +56,29 @@ class PostType extends Singleton {
 	 */
 	protected function set_setting( $settings = [], $post_type = '' ) {
 		if ( $post_type ) {
+			// Explicitly set, use it.
 			$this->post_type = $post_type;
+		} else {
+			// Get from option.
+			$this->post_type = get_option( 'kvm_post_type', '' ) ?: 'member';
 		}
 		$this->args = wp_parse_args( $settings, [
-			'label'  => __( 'Staff', 'kvm' ),
-			'labels' => [
+			'label'        => $this->get_post_type_label(),
+			'labels'       => [
 				'featured_image'        => __( 'Profile Picture', 'kvm' ),
 				'set_featured_image'    => __( 'Set profile picture', 'kvm' ),
 				'remove_featured_image' => __( 'Remove profile picture', 'kvm' ),
 				'use_featured_image'    => __( 'Use as profile picture', 'kvm' ),
 			],
-			'public' => false,
-			'show_ui' => true,
-			'supports' => [ 'title', 'excerpt', 'editor', 'thumbnail', 'custom-fields' ],
+			'public'       => self::virtual_member_is_public(),
+			'show_ui'      => true,
+			'supports'     => [ 'title', 'excerpt', 'editor', 'slug', 'thumbnail', 'custom-fields' ],
 			'show_in_rest' => true,
-			'menu_icon' => 'dashicons-groups',
+			'rewrite'      => [
+				'slug'       => $this->get_post_type_rewrite(),
+				'with_front' => false,
+			],
+			'menu_icon'    => 'dashicons-groups',
 		] );
 	}
 
@@ -65,19 +87,20 @@ class PostType extends Singleton {
 	 */
 	public function register_post_type() {
 		// Post type.
-		register_post_type( $this->post_type, $this->args );
+		register_post_type( $this->post_type, apply_filters( 'kvm_post_type_args', $this->args ) );
 		// Taxonomy.
-		$objects = apply_filters( 'virtual_member_taxonomy_applied_to', [ $this->post_type ] );
+		$objects       = apply_filters( 'virtual_member_taxonomy_applied_to', [ $this->post_type ] );
 		$taxonomy_args = apply_filters( 'virtual_member_taxonomy_args', [
-			'label' => __( 'Group', 'kvm' ),
-			'show_in_rest' => true,
-			'hierarchical' => true,
+			'label'             => apply_filters( 'kvm_taxonomy_label', __( 'Group', 'kvm' ) ),
+			'show_in_rest'      => true,
+			'hierarchical'      => true,
+			'show_admin_column' => true,
 		] );
-		register_taxonomy( $this->taxonomy, $objects, $taxonomy_args );
+		register_taxonomy( $this->taxonomy(), $objects, $taxonomy_args );
 	}
 
 	/**
-	 * Regsiter this as post types.
+	 * Override post types.
 	 *
 	 * @param string[] $post_types
 	 * @param int      $default_user_id
@@ -86,77 +109,10 @@ class PostType extends Singleton {
 	 */
 	public function use_as_post_author( $post_types, $default_user_id = 0 ) {
 		$this->post_types_having_author = $post_types;
-		$this->default_user = (int) $default_user_id;
-		add_action( 'add_meta_boxes', [ $this, 'add_meta_boxes' ] );
-		add_action( 'save_post', [ $this, 'save_post' ], 10, 2 );
+		$this->default_user             = (int) $default_user_id;
 		return $this;
 	}
 
-	/**
-	 * Render meta box.
-	 *
-	 * @param string $post_type
-	 */
-	public function add_meta_boxes( $post_type ) {
-		if ( ! in_array( $post_type, $this->post_types_having_author ) ) {
-			return;
-		}
-		$post_type_object = get_post_type_object( $this->post_type );
-		add_meta_box( 'virtual-member-id', $post_type_object->label, function( \WP_Post $post ) {
-			$post_type_object = get_post_type_object( $this->post_type );
-			wp_nonce_field( 'virtual_member_as_author', '_vmnonce', false );
-			$users = get_posts( [
-				'post_type'      => $this->post_type,
-				'post_status'    => 'publish',
-				'posts_per_page' => -1,
-			] );
-			$current_id = (int) get_post_meta( $post->ID, '_virtual_author_id', true );
-			?>
-			<p>
-				<select name="virtual-author-id" id="virtual-author-id">
-					<option value="0" <?php selected( $current_id, 0 ) ?>><?php esc_html_e( 'Not specify', 'kvm' ) ?></option>
-					<?php foreach ( $users as $user ) :
-						$group = '';
-						$terms = get_the_terms( $user, $this->taxonomy );
-						if ( $terms && ! is_wp_error( $terms ) ) {
-							$group = implode( ', ', array_map( function( $term ) {
-								return $term->name;
-							}, $terms ) );
-						}
-						?>
-					<option value="<?php echo esc_attr( $user->ID ) ?>"<?php selected( $user->ID, $current_id ) ?>>
-						<?php echo esc_html( sprintf( _x( '%1$s(%2$s)', 'user selector', 'kvm' ), get_the_title( $user ), $group ) ); ?>
-					</option>
-					<?php endforeach; ?>
-				</select>
-			</p>
-			<p class="description">
-				<?php printf( __( 'To change post author to %s, please specify.', 'kvm' ), $post_type_object->label ); ?>
-			</p>
-			<?php
-		}, $post_type, 'side' );
-	}
-
-	/**
-	 * Save post authors.
-	 *
-	 * @param int      $post_id
-	 * @param \WP_Post $post
-	 */
-	public function save_post( $post_id, $post ) {
-		if ( ! in_array( $post->post_type, $this->post_types_having_author ) ) {
-			return;
-		}
-		if ( ! wp_verify_nonce( filter_input( INPUT_POST, '_vmnonce' ), 'virtual_member_as_author' ) ) {
-			return;
-		}
-		$author_id = (int) filter_input( INPUT_POST, 'virtual-author-id' );
-		if ( $author_id ) {
-			update_post_meta( $post_id, '_virtual_author_id', $author_id );
-		} else {
-			delete_post_meta( $post_id, '_virtual_author_id' );
-		}
-	}
 
 	/**
 	 * Register staff.
@@ -173,12 +129,12 @@ class PostType extends Singleton {
 
 	/**
 	 * Detect if this is active.
-     *
-     * @return bool
+	 *
+	 * @return bool
 	 */
 	public static function is_active() {
-	    return self::$is_activated;
-    }
+		return self::$is_activated;
+	}
 
 	/**
 	 * Get post type.
@@ -187,5 +143,69 @@ class PostType extends Singleton {
 	 */
 	public static function post_type() {
 		return static::get_instance()->post_type;
+	}
+
+	/**
+	 * Get available post types.
+	 *
+	 * @return string[]
+	 */
+	public static function available_post_types() {
+		$instance = self::get_instance();
+		if ( is_null( $instance->post_types_having_author ) ) {
+			return get_option( 'kvm_available_post_types', [] );
+		} else {
+			return $instance->post_types_having_author;
+		}
+	}
+
+	/**
+	 * Default user.
+	 *
+	 * @return int
+	 */
+	public static function default_user() {
+		$instance = self::get_instance();
+		if ( is_null( $instance->default_user ) ) {
+			return (int) get_option( 'kvm_default_user', 0 );
+		} else {
+			return $instance->default_user;
+		}
+	}
+
+	/**
+	 * Get post type label.
+	 *
+	 * @return string
+	 */
+	protected function get_post_type_label() {
+		return get_option( 'kvm_post_type_label' ) ?: __( 'Member', 'kvm' );
+	}
+
+	/**
+	 * Detect if virual member is public.
+	 *
+	 * @return bool
+	 */
+	public function virtual_member_is_public() {
+		return (bool) get_option( 'kvm_post_type_is_public' );
+	}
+
+	/**
+	 * Get post type rewrite.
+	 *
+	 * @return string
+	 */
+	public function get_post_type_rewrite() {
+		return get_option( 'kvm_post_type_prefix' ) ?: 'member';
+	}
+
+	/**
+	 * Taxonomy name.
+	 *
+	 * @return string
+	 */
+	public function taxonomy() {
+		return apply_filters( 'kvm_taxonomy', 'member-group' );
 	}
 }
