@@ -1,55 +1,141 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kvm\n"
-"POT-Creation-Date: 2020-01-09 19:58+0900\n"
-"PO-Revision-Date: 2020-01-09 20:10+0900\n"
+"POT-Creation-Date: 2021-09-14 15:29+0900\n"
+"PO-Revision-Date: 2021-09-14 15:34+0900\n"
+"Last-Translator: Takahashi Fumiki <takahashi.fumiki@hametuha.co.jp>\n"
 "Language-Team: Kunoichi\n"
+"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 2.4.2\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-KeywordsList: __;_e;_x;esc_html__;esc_html_e\n"
-"Last-Translator: Takahashi Fumiki <takahashi.fumiki@hametuha.co.jp>\n"
-"Language: ja\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: vendor\n"
 
-#: src/Kunoichi/VirtualMember/PostType.php:46
-msgid "Staff"
-msgstr "スタッフ"
-
-#: src/Kunoichi/VirtualMember/PostType.php:48
+#: src/Kunoichi/VirtualMember/PostType.php:68
 msgid "Profile Picture"
 msgstr "プロフィール画像"
 
-#: src/Kunoichi/VirtualMember/PostType.php:49
+#: src/Kunoichi/VirtualMember/PostType.php:69
 msgid "Set profile picture"
 msgstr "プロフィール画像を設定"
 
-#: src/Kunoichi/VirtualMember/PostType.php:50
+#: src/Kunoichi/VirtualMember/PostType.php:70
 msgid "Remove profile picture"
 msgstr "プロフィール画像を削除"
 
-#: src/Kunoichi/VirtualMember/PostType.php:51
+#: src/Kunoichi/VirtualMember/PostType.php:71
 msgid "Use as profile picture"
 msgstr "プロフィール画像として使用"
 
-#: src/Kunoichi/VirtualMember/PostType.php:70
+#: src/Kunoichi/VirtualMember/PostType.php:94
 msgid "Group"
 msgstr "グループ"
 
-#: src/Kunoichi/VirtualMember/PostType.php:115
+#: src/Kunoichi/VirtualMember/PostType.php:182
+msgid "Member"
+msgstr "メンバー"
+
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:58
+#, php-format
+#| msgid "To change post author to %s, please specify."
+msgid "To change post author of %s, please specify."
+msgstr "%sの作者を変更する場合は指定してください。"
+
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:63
 msgid "Not specify"
 msgstr "指定しない"
 
-#: src/Kunoichi/VirtualMember/PostType.php:126
-#, php-format
-msgid "%1$s(%2$s)"
-msgstr "%1$s（%2$s）"
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:85
+msgid "Default"
+msgstr "デフォルト"
 
-#: src/Kunoichi/VirtualMember/PostType.php:132
+#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:35
+msgid "Member Setting"
+msgstr "メンバー設定"
+
+#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:54
+msgid "The settings below will take effect on Virtual Member."
+msgstr "以下の設定はVirtual Memberの動作を変更します。"
+
+#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:78
+msgid "Basic Setting"
+msgstr "基本設定"
+
+#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:82
+msgid "Post Types"
+msgstr "投稿タイプ"
+
+#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:96
+msgid "Post types checked above will have member meta box."
+msgstr ""
+"上でチェックされた投稿タイプはメンバー設定メタボックスが表示されます。"
+
+#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:101
+msgid "Default Author"
+msgstr "デフォルトの作者"
+
+#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:109
+msgid "Not Set"
+msgstr "未設定"
+
+#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:117
+msgid "(Default)"
+msgstr "（デフォルト）"
+
+#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:126
+msgid ""
+"By setting default user, any post without specified virtual member will be "
+"owned by the default user.."
+msgstr ""
+"デフォルトの作者を設定すると、バーチャルメンバーを指定されていないすべての"
+"投稿はデフォルトの作者のものとして表示されます。"
+
+#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:131
+msgid "Public"
+msgstr "公開"
+
+#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:135
+msgid "Post Type is public"
+msgstr "投稿タイプをパブリックにする"
+
+#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:136
+msgid ""
+"If checked, post type for virtual member will have its own permalink and "
+"displayed. Never forget to refresh permalink structure after change."
+msgstr ""
+"チェックをすると、バーチャルメンバーの投稿タイプは固有のURLを持ち、表示され"
+"るようになります。変更した場合はパーマリンク構造を更新してください。"
+
+#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:143
+msgid "Labels"
+msgstr "ラベル"
+
+#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:147
+msgid "Post Type Label"
+msgstr "投稿タイプのラベル"
+
+#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:156
+msgid "URL Prefix"
+msgstr "URL接頭辞"
+
+#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:160
+msgid "This will be a part of URL if virtual member is a public post type."
+msgstr ""
+"これはバーチャルメンバーがパブリックな投稿タイプの場合、URLの一部になりま"
+"す。"
+
+#: virutal-member.php:28
+msgid "Compose file is missing."
+msgstr "Composerのファイルがありません。"
+
+#~ msgid "Staff"
+#~ msgstr "スタッフ"
+
 #, php-format
-msgid "To change post author to %s, please specify."
-msgstr "投稿の作者を %s に変える場合は指定してください。"
+#~ msgid "%1$s(%2$s)"
+#~ msgstr "%1$s（%2$s）"
