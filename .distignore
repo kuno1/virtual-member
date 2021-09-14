@@ -17,7 +17,6 @@ phpunit.xml.dist
 README.md
 webpack.config.js
 wordpress
-vendor
 bin
 tests
 virtual-member.php.bak
