@@ -148,14 +148,14 @@ class SettingScreen extends Singleton {
 			printf(
 				'<input class="regular-text" name="kvm_post_type_label" type="text" value="%s" placeholder="%s" />',
 				esc_attr( get_option( 'kvm_post_type_label' ) ),
-				esc_attr__( 'Staff', 'kvm' )
+				esc_attr__( 'Member', 'kvm' )
 			);
 		}, $this->page, 'kvm-labels' );
 		register_setting( $this->page, 'kvm_post_type_label' );
 		// Prefix.
 		add_settings_field( 'kvm_post_type_prefix', __( 'URL Prefix', 'kvm' ), function() {
 			printf(
-				'<input type="text" value="%s" name="kvm_post_type_prefix" placeholder="staff" /><p class="description">%s</p>',
+				'<input type="text" value="%s" name="kvm_post_type_prefix" placeholder="member" /><p class="description">%s</p>',
 				esc_attr( get_option( 'kvm_post_type_prefix' ) ),
 				esc_html__( 'This will be a part of URL if virtual member is a public post type.', 'kvm' )
 			);

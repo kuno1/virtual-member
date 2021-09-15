@@ -156,7 +156,7 @@ class PublicScreen extends Singleton {
 		// This should be the author's avavar.
 		if ( has_post_thumbnail( $member ) ) {
 			// Override avatar.
-			$args['url'] = get_the_post_thumbnail_url( $member, $args['size'] );
+			$args['url'] = get_the_post_thumbnail_url( $member, [ $args['width'], $args['height'] ] );
 		}
 		$args['alt'] = get_the_title( $member );
 		return $args;
