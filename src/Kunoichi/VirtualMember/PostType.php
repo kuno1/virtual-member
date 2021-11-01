@@ -35,7 +35,8 @@ class PostType extends Singleton {
 	 * Constructor
 	 */
 	protected function init() {
-		if ( ! defined( '' ) ) {
+		if ( ! defined( 'KVM_AS_PLUGIN' ) ) {
+			// This is not plugin. Needs original translation.
 			$po = sprintf( dirname( dirname( dirname( __DIR__ ) ) ) . '/languages/kvm-%s.mo', get_user_locale() );
 			load_textdomain( 'kvm', $po );
 		}

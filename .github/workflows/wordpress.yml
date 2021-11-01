@@ -78,7 +78,6 @@ jobs:
       - name: Create Zip
         run: zip -r ${{ github.event.repository.name }}.zip ./
 
-
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1.0.0

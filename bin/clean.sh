@@ -10,3 +10,7 @@ for item in "${files[@]}"; do
     rm -frv $item
   fi
 done
+
+# Remove files not necessary for composer.
+rm -frv vendor/
+rm -frv virtual-member.php
