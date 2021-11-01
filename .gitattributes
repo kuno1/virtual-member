@@ -17,3 +17,4 @@ package.json export-ignore
 webpack.config.js export-ignore
 phpcs.ruleset.xml export-ignore
 phpunit.xml export-ignore
+virtual-member.php export-ignore
