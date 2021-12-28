@@ -6,6 +6,7 @@ namespace Kunoichi\VirtualMember\Ui;
 use Kunoichi\VirtualMember\Pattern\Singleton;
 use Kunoichi\VirtualMember\PostType;
 use Kunoichi\VirtualMember\Utility\CommonMethods;
+use TYPO3\CMS\Reports\Status;
 
 /**
  * Editor for author.
@@ -22,6 +23,7 @@ class MemberEditor extends Singleton {
 	protected function init() {
 		add_action( 'add_meta_boxes', [ $this, 'add_meta_boxes' ] );
 		add_action( 'save_post', [ $this, 'save_post' ], 10, 2 );
+		add_filter( 'display_post_states', [ $this, 'post_states' ], 10, 2 );
 	}
 
 	/**
@@ -111,5 +113,24 @@ class MemberEditor extends Singleton {
 		} else {
 			delete_post_meta( $post_id, $this->meta_key() );
 		}
+	}
+
+	/**
+	 * Add hint.
+	 *
+	 * @param string[] $states Post status.
+	 * @param \WP_Post $post   Post object
+	 *
+	 * @return string[]
+	 */
+	public function post_states( $states, $post ) {
+		if ( PostType::post_type() !== $post->post_type ) {
+			return $states;
+		}
+		if ( PostType::default_user() !== $post->ID ) {
+			return $states;
+		}
+		$states['kvm_default'] = __( 'Default Member', 'kvm' );
+		return $states;
 	}
 }

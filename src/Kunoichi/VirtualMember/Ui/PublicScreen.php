@@ -101,10 +101,30 @@ class PublicScreen extends Singleton {
 		if ( ! $wp_query->get( 'post_type' ) ) {
 			$wp_query->set( 'post_type', PostType::available_post_types() );
 		}
-		$meta_query = [
-			'key'   => $this->meta_key(),
-			'value' => $kvm_id,
-		];
+		$default_user = PostType::default_user();
+		if ( $kvm_id === (string) $default_user ) {
+			// This is default user. should include all.
+			$meta_query = [
+				'relation' => 'OR',
+				[
+					'key'   => $this->meta_key(),
+					'value' => $kvm_id,
+				],
+				[
+					'key'   => $this->meta_key(),
+					'value' => '',
+				],
+				[
+					'key'     => $this->meta_key(),
+					'compare' => 'NOT EXISTS',
+				],
+			];
+		} else {
+			$meta_query = [
+				'key'   => $this->meta_key(),
+				'value' => $kvm_id,
+			];
+		}
 		if ( $wp_query->get( 'meta_query' ) ) {
 			$wp_query->query_vars['meta_query'][] = $meta_query;
 		} else {
