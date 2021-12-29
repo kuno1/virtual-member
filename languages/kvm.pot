@@ -2,58 +2,71 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kvm\n"
-"POT-Creation-Date: 2021-09-14 15:29+0900\n"
+"POT-Creation-Date: 2021-12-29 17:34+0900\n"
 "PO-Revision-Date: 2020-01-09 19:55+0900\n"
 "Last-Translator: Takahashi Fumiki <takahashi.fumiki@hametuha.co.jp>\n"
 "Language-Team: Kunoichi\n"
+"Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.2\n"
-"X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: en_US\n"
+"X-Generator: Poedit 3.0.1\n"
+"X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_x;esc_html__;esc_html_e\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: vendor\n"
 "X-Poedit-SearchPathExcluded-1: node_modules\n"
 "X-Poedit-SearchPathExcluded-2: wordpress\n"
 
-#: src/Kunoichi/VirtualMember/PostType.php:68
+#: src/Kunoichi/VirtualMember/PostType.php:69
 msgid "Profile Picture"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/PostType.php:69
+#: src/Kunoichi/VirtualMember/PostType.php:70
 msgid "Set profile picture"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/PostType.php:70
+#: src/Kunoichi/VirtualMember/PostType.php:71
 msgid "Remove profile picture"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/PostType.php:71
+#: src/Kunoichi/VirtualMember/PostType.php:72
 msgid "Use as profile picture"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/PostType.php:94
+#: src/Kunoichi/VirtualMember/PostType.php:95
 msgid "Group"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/PostType.php:182
+#: src/Kunoichi/VirtualMember/PostType.php:183
 msgid "Member"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:58
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:39
+#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:141
+msgid "Contact Methods"
+msgstr ""
+
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:63
 #, php-format
 msgid "To change post author of %s, please specify."
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:63
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:68
 msgid "Not specify"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:85
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:90
 msgid "Default"
+msgstr ""
+
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:148
+msgid "Web Site"
+msgstr ""
+
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:193
+msgid "Default Member"
 msgstr ""
 
 #: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:35
@@ -104,22 +117,26 @@ msgstr ""
 msgid "If checked, post type for virtual member will have its own permalink and displayed. Never forget to refresh permalink structure after change."
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:143
+#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:146
+msgid "This will add extra contact methods to the user profile editor and also add meta box of member editor. Enter key and label in CSV format. e.g. facebook,Facebook"
+msgstr ""
+
+#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:153
 msgid "Labels"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:147
+#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:157
 msgid "Post Type Label"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:156
+#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:166
 msgid "URL Prefix"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:160
+#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:170
 msgid "This will be a part of URL if virtual member is a public post type."
 msgstr ""
 
-#: virutal-member.php:28
+#: virtual-member.php:28
 msgid "Compose file is missing."
 msgstr ""
