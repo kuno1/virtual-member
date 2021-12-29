@@ -23,7 +23,9 @@ class MemberEditor extends Singleton {
 	protected function init() {
 		add_action( 'add_meta_boxes', [ $this, 'add_meta_boxes' ] );
 		add_action( 'save_post', [ $this, 'save_post' ], 10, 2 );
+		add_action( 'save_post', [ $this, 'save_member' ], 10, 2 );
 		add_filter( 'display_post_states', [ $this, 'post_states' ], 10, 2 );
+		add_filter( 'user_contactmethods', [ $this, 'user_contact_methods' ], 10, 2 );
 	}
 
 	/**
@@ -32,11 +34,12 @@ class MemberEditor extends Singleton {
 	 * @param string $post_type
 	 */
 	public function add_meta_boxes( $post_type ) {
-		if ( ! $this->use_member( $post_type ) ) {
-			return;
-		}
 		$post_type_object = get_post_type_object( $this->post_type() );
-		add_meta_box( 'virtual-member-id', $post_type_object->label, [ $this, 'render_meta_box' ], $post_type, 'side' );
+		if ( $this->post_type() === $post_type ) {
+			add_meta_box( 'virtual-member-meta', __( 'Contact Methods', 'kvm' ), [ $this, 'render_member_meta_box' ], $post_type, 'advanced' );
+		} else if ( $this->use_member( $post_type ) ) {
+			add_meta_box( 'virtual-member-id', $post_type_object->label, [ $this, 'render_post_meta_box' ], $post_type, 'side' );
+		}
 	}
 
 	/**
@@ -44,7 +47,7 @@ class MemberEditor extends Singleton {
 	 *
 	 * @param \WP_Post $post Post object.
 	 */
-	public function render_meta_box( $post ) {
+	public function render_post_meta_box( $post ) {
 		$post_type_object = get_post_type_object( PostType::post_type() );
 		wp_nonce_field( 'virtual_member_as_author', '_kvmnonce', false );
 		$users      = get_posts( [
@@ -116,6 +119,63 @@ class MemberEditor extends Singleton {
 	}
 
 	/**
+	 * Save post object.
+	 *
+	 * @param int      $post_id Post ID.
+	 * @param \WP_Post $post    Post object.
+	 *
+	 * @return void
+	 */
+	public function save_member( $post_id, $post ) {
+		if ( $this->post_type() !== $post->post_type ) {
+			return;
+		}
+		if ( ! wp_verify_nonce( filter_input( INPUT_POST, '_kvmmmebernonce' ), 'kvm_meta_update' ) ) {
+			return;
+		}
+		foreach ( $this->get_custom_metas() as $key => $label ) {
+			update_post_meta( $post_id, $key, filter_input( INPUT_POST, $key ) );
+		}
+	}
+
+	/**
+	 * Get custom metas.
+	 *
+	 * @return string[]
+	 */
+	protected function get_custom_metas() {
+		return array_merge( [
+			'user_url' => __( 'Web Site', 'kvm' ),
+		], wp_get_user_contact_methods() );
+	}
+
+	/**
+	 * Render meta box for member.
+	 *
+	 * @param \WP_Post $post Post object.
+	 * @return void
+	 */
+	public function render_member_meta_box( $post ) {
+		wp_nonce_field( 'kvm_meta_update', '_kvmmmebernonce', false );
+		foreach ( $this->get_custom_metas() as $key => $label ) :
+			$type = ( 'user_url' === $key ) ? 'url' : 'text';
+			?>
+			<p>
+				<label><?php echo esc_html( $label ); ?><br />
+					<?php
+					printf(
+						'<input class="widefat" type="%s" name="%s" value="%s" />',
+						esc_attr( $type ),
+						esc_attr( $key ),
+						esc_attr( get_post_meta( $post->ID, $key, true ) )
+					);
+					?>
+				</label>
+			</p>
+		<?php endforeach;
+	}
+
+	/**
 	 * Add hint.
 	 *
 	 * @param string[] $states Post status.
@@ -132,5 +192,20 @@ class MemberEditor extends Singleton {
 		}
 		$states['kvm_default'] = __( 'Default Member', 'kvm' );
 		return $states;
+	}
+
+	/**
+	 * Get user contact methods.
+	 *
+	 * @param string[] $methods Methods.
+	 * @param \WP_User $user    User object.
+	 *
+	 * @return string[]
+	 */
+	public function user_contact_methods( $methods, $user = null ) {
+		foreach ( $this->custom_contact_methods() as $key => $label ) {
+			$methods[ $key ] = $label;
+		}
+		return $methods;
 	}
 }

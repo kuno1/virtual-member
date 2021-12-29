@@ -141,7 +141,10 @@ class PublicScreen extends Singleton {
 	 * @return array
 	 */
 	public function hook_avatar( $args, $id_or_email ) {
-		if ( is_a( $id_or_email, 'WP_Comment' ) ) {
+		if ( is_a( $id_or_email, 'WP_User' ) ) {
+			$user_id = $id_or_email->user_id;
+			$post    = get_post();
+		} elseif ( is_a( $id_or_email, 'WP_Comment' ) ) {
 			$post    = get_post( $id_or_email->comment_post_ID );
 			$user_id = $id_or_email->user_id ?: email_exists( $id_or_email->comment_author_email );
 		} elseif ( is_a( $id_or_email, 'WP_Post' ) ) {

@@ -185,4 +185,24 @@ trait CommonMethods {
 			], home_url() );
 		}
 	}
+
+	/**
+	 * Get custom contact methods.
+	 *
+	 * @return string[]
+	 */
+	protected function custom_contact_methods() {
+		$option  = get_option( 'kvm_contact_methods' );
+		$methods = [];
+		foreach ( array_filter( preg_split( "#(\r\n|\r|\n)#u", $option ) ) as $method ) {
+			$list = array_filter( array_map( 'trim', explode( ',', $method ) ) );
+			if ( 2 !== count( $list ) ) {
+				continue;
+			}
+			list( $key, $label ) = $list;
+			$methods[ $key ] = $label;
+		}
+		return $methods;
+
+	}
 }

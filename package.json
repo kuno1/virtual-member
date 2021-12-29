@@ -4,6 +4,7 @@
 	"scripts": {
 		"start": "wp-env start",
 		"update": "wp-env start --update",
+		"env": "wp-env",
 		"stop": "wp-env stop",
 		"cli": "wp-env run cli wp",
 		"cli:test": "wp-env run tests-cli wp",
