@@ -141,7 +141,7 @@ class SettingScreen extends Singleton {
 		add_settings_field( 'kvm_contact_methods', __( 'Contact Methods', 'kvm' ), function() {
 			printf(
 				'<textarea name="kvm_contact_methods" placeholder="%s">%s</textarea><p class="description">%s</p>',
-				implode( '&#13;&#10;', array_map( 'esc_html', [ 'facebook,Facebook', 'twitter,Twitter' ]  ) ),
+				implode( '&#13;&#10;', array_map( 'esc_html', [ 'facebook,Facebook', 'twitter,Twitter' ] ) ),
 				esc_textarea( get_option( 'kvm_contact_methods' ) ),
 				esc_html__( 'This will add extra contact methods to the user profile editor and also add meta box of member editor. Enter key and label in CSV format. e.g. facebook,Facebook', 'kvm' )
 			);

@@ -37,7 +37,7 @@ class MemberEditor extends Singleton {
 		$post_type_object = get_post_type_object( $this->post_type() );
 		if ( $this->post_type() === $post_type ) {
 			add_meta_box( 'virtual-member-meta', __( 'Contact Methods', 'kvm' ), [ $this, 'render_member_meta_box' ], $post_type, 'advanced' );
-		} else if ( $this->use_member( $post_type ) ) {
+		} elseif ( $this->use_member( $post_type ) ) {
 			add_meta_box( 'virtual-member-id', $post_type_object->label, [ $this, 'render_post_meta_box' ], $post_type, 'side' );
 		}
 	}
@@ -172,7 +172,8 @@ class MemberEditor extends Singleton {
 					?>
 				</label>
 			</p>
-		<?php endforeach;
+			<?php
+		endforeach;
 	}
 
 	/**

@@ -200,7 +200,7 @@ trait CommonMethods {
 				continue;
 			}
 			list( $key, $label ) = $list;
-			$methods[ $key ] = $label;
+			$methods[ $key ]     = $label;
 		}
 		return $methods;
 
