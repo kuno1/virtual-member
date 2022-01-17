@@ -102,7 +102,7 @@ class PublicScreen extends Singleton {
 			$wp_query->set( 'post_type', PostType::available_post_types() );
 		}
 		$default_user = PostType::default_user();
-		if ( $kvm_id === (string) $default_user ) {
+		if ( (string) $kvm_id === (string) $default_user ) {
 			// This is default user. should include all.
 			$meta_query = [
 				'relation' => 'OR',

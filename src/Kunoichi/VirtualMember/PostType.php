@@ -168,10 +168,9 @@ class PostType extends Singleton {
 	public static function default_user() {
 		$instance = self::get_instance();
 		if ( is_null( $instance->default_user ) ) {
-			return (int) get_option( 'kvm_default_user', 0 );
-		} else {
-			return $instance->default_user;
+			$instance->default_user = (int) get_option( 'kvm_default_user', 0 );
 		}
+		return $instance->default_user;
 	}
 
 	/**
