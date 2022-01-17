@@ -154,10 +154,9 @@ class PostType extends Singleton {
 	public static function available_post_types() {
 		$instance = self::get_instance();
 		if ( is_null( $instance->post_types_having_author ) ) {
-			return get_option( 'kvm_available_post_types', [] );
-		} else {
-			return $instance->post_types_having_author;
+			$instance->post_types_having_author = get_option( 'kvm_available_post_types', [] );
 		}
+		return $instance->post_types_having_author;
 	}
 
 	/**
