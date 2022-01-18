@@ -231,7 +231,7 @@ class PublicScreen extends Singleton {
 	public function override_user_url( $value, $user_id ) {
 		$member = $this->get_member_in_loop( $user_id );
 		if ( $member ) {
-			$value = get_post_type_object( $member->post_type )->public ? get_permalink( $member ) : '';
+			$value      = get_post_type_object( $member->post_type )->public ? get_permalink( $member ) : '';
 			$meta_value = get_post_meta( $member->ID, 'user_url', true );
 			if ( $meta_value ) {
 				$value = $meta_value;
@@ -266,7 +266,7 @@ class PublicScreen extends Singleton {
 	 */
 	public function __call( $name, $arguments ) {
 		if ( preg_match( '/override_contact_method_(.*)/', $name, $matches ) ) {
-			list( $match, $key ) = $matches;
+			list( $match, $key )                        = $matches;
 			list( $value, $user_id, $original_user_id ) = $arguments;
 			return $this->override_contact_method( $value, $key, $user_id );
 		} else {
