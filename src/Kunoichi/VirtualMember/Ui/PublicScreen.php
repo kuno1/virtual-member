@@ -37,6 +37,12 @@ class PublicScreen extends Singleton {
 		add_filter( 'get_the_author_description', [ $this, 'override_description' ], 10, 2 );
 		add_filter( 'get_the_author_user_url', [ $this, 'override_user_url' ], 10, 2 );
 		add_filter( 'get_the_author_display_name', [ $this, 'override_display_name' ], 10, 2 );
+		// Add filter for meta data.
+		add_action( 'template_redirect', function() {
+			foreach ( wp_get_user_contact_methods() as $key => $label ) {
+				add_filter( 'get_the_author_' . $key, [ $this, 'override_contact_method_' . $key ], 10, 3 );
+			}
+		} );
 	}
 
 	/**
@@ -226,6 +232,10 @@ class PublicScreen extends Singleton {
 		$member = $this->get_member_in_loop( $user_id );
 		if ( $member ) {
 			$value = get_post_type_object( $member->post_type )->public ? get_permalink( $member ) : '';
+			$meta_value = get_post_meta( $member->ID, 'user_url', true );
+			if ( $meta_value ) {
+				$value = $meta_value;
+			}
 		}
 		return $value;
 	}
@@ -245,4 +255,47 @@ class PublicScreen extends Singleton {
 		}
 		return $this->get_member( $post );
 	}
+
+	/**
+	 * A caller.
+	 *
+	 * @param string $name      Function name.
+	 * @param array  $arguments Function arguments.
+	 *
+	 * @return mixed
+	 */
+	public function __call( $name, $arguments ) {
+		if ( preg_match( '/override_contact_method_(.*)/', $name, $matches ) ) {
+			list( $match, $key ) = $matches;
+			list( $value, $user_id, $original_user_id ) = $arguments;
+			return $this->override_contact_method( $value, $key, $user_id );
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * Call user method.
+	 *
+	 * @param string $value   Value.
+	 * @param string $key     Meta key name.
+	 * @param int    $user_id User ID.
+	 *
+	 * @return string
+	 */
+	public function override_contact_method( $value, $key, $user_id ) {
+		// Is virtual member?
+		$member = $this->get_member_in_loop( $user_id );
+		if ( ! $member ) {
+			return $value;
+		}
+		// Try to get meta value.
+		$meta_value = get_post_meta( $member->ID, $key, true );
+		if ( $meta_value ) {
+			$value = $meta_value;
+		}
+		return $value;
+	}
+
+
 }
