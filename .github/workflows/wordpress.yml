@@ -35,6 +35,10 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
 
+      - name: Downgrade PHP
+        if: env.php == '5.6'
+        run: composer self-update --2.2
+
       - name: Validate composer.json and composer.lock
         run: composer validate
 
