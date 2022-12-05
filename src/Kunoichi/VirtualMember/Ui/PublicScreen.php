@@ -159,7 +159,7 @@ class PublicScreen extends Singleton {
 		} elseif ( is_numeric( $id_or_email ) ) {
 			$user_id = $id_or_email;
 			$post    = get_post();
-		} elseif ( is_email( $id_or_email ) ) {
+		} elseif ( is_string( $id_or_email ) && is_email( $id_or_email ) ) {
 			$user_id = email_exists( $id_or_email );
 			$post    = get_post();
 		} else {

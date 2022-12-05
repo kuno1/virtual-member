@@ -1,2 +1,3 @@
 # virtual-member
-Add virtual member to WordPress.
+
+Add virtual members to WordPress.
