@@ -60,7 +60,7 @@ class MemberEditor extends Singleton {
 					$group = '';
 					$terms = get_the_terms( $user, $this->taxonomy() );
 					if ( $terms && ! is_wp_error( $terms ) ) {
-						$group = implode( ', ', array_map( function( $term ) {
+						$group = implode( ', ', array_map( function ( $term ) {
 							return $term->name;
 						}, $terms ) );
 					}
@@ -98,11 +98,12 @@ class MemberEditor extends Singleton {
 		$current_ids = array_map( 'intval', get_post_meta( $post->ID, $this->meta_key() ) );
 		?>
 		<p>
-			<?php foreach ( $users as $user ) :
+			<?php
+			foreach ( $users as $user ) :
 				$group = '';
 				$terms = get_the_terms( $user, $this->taxonomy() );
 				if ( $terms && ! is_wp_error( $terms ) ) {
-					$group = implode( ', ', array_map( function( $term ) {
+					$group = implode( ', ', array_map( function ( $term ) {
 						return $term->name;
 					}, $terms ) );
 				}
@@ -112,7 +113,12 @@ class MemberEditor extends Singleton {
 					<input type="checkbox" name="virtual-author-id[]" value="<?php echo esc_attr( $user->ID ); ?>" <?php checked( $checked ); ?> />
 					<?php echo esc_html( get_the_title( $user ) ); ?>
 					<?php if ( ! empty( $group ) ) : ?>
-					<small><?php printf( esc_html_x( ' (%s)', 'user-group', 'kvm' ), esc_html( $group ) ) ?></small>
+					<small>
+						<?php
+						// translators: %s is user group.
+						printf( esc_html_x( ' (%s)', 'user-group', 'kvm' ), esc_html( $group ) );
+						?>
+					</small>
 					<?php endif; ?>
 					<?php if ( PostType::default_user() === $user->ID ) : ?>
 					- <strong><?php esc_html_e( 'Default', 'kvm' ); ?></strong>
@@ -130,7 +136,7 @@ class MemberEditor extends Singleton {
 	 */
 	public function render_post_meta_box( $post ) {
 		wp_nonce_field( 'virtual_member_as_author', '_kvmnonce', false );
-		$users      = get_posts( [
+		$users            = get_posts( [
 			'post_type'      => $this->post_type(),
 			'post_status'    => 'publish',
 			'posts_per_page' => -1,
@@ -165,7 +171,7 @@ class MemberEditor extends Singleton {
 			return;
 		}
 		$author_id = filter_input( INPUT_POST, 'virtual-author-id', FILTER_DEFAULT, [
-			'flags' => FILTER_REQUIRE_ARRAY
+			'flags' => FILTER_REQUIRE_ARRAY,
 		] );
 		delete_post_meta( $post_id, $this->meta_key() );
 		foreach ( $author_id as $id ) {

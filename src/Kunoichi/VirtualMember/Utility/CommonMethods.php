@@ -43,7 +43,7 @@ trait CommonMethods {
 	 * @return string
 	 */
 	public function plugin_dir() {
-		return dirname( dirname( dirname( dirname( __DIR__ ) ) ) );
+		return dirname( __DIR__, 4 );
 	}
 
 	/**
@@ -218,6 +218,5 @@ trait CommonMethods {
 			$methods[ $key ]     = $label;
 		}
 		return $methods;
-
 	}
 }
