@@ -23,7 +23,7 @@ class PublicScreen extends Singleton {
 		add_filter( 'the_author', [ $this, 'hook_the_author' ] );
 		add_filter( 'author_link', [ $this, 'hook_author_archive' ], 10, 3 );
 		// Add query vars.
-		add_filter( 'query_vars', function( $vars ) {
+		add_filter( 'query_vars', function ( $vars ) {
 			$vars[] = 'kvm_id';
 			return $vars;
 		} );
@@ -38,7 +38,7 @@ class PublicScreen extends Singleton {
 		add_filter( 'get_the_author_user_url', [ $this, 'override_user_url' ], 10, 2 );
 		add_filter( 'get_the_author_display_name', [ $this, 'override_display_name' ], 10, 2 );
 		// Add filter for meta data.
-		add_action( 'template_redirect', function() {
+		add_action( 'template_redirect', function () {
 			foreach ( wp_get_user_contact_methods() as $key => $label ) {
 				add_filter( 'get_the_author_' . $key, [ $this, 'override_contact_method_' . $key ], 10, 3 );
 			}
@@ -296,6 +296,4 @@ class PublicScreen extends Singleton {
 		}
 		return $value;
 	}
-
-
 }

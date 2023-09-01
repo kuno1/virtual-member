@@ -11,83 +11,41 @@ on:
       - master
 
 jobs:
-  test:
-    runs-on: ${{ matrix.operating-system }}
-    strategy:
-      matrix:
-        operating-system: [ ubuntu-latest ] # OS. ubuntu-18.04 is also available.
-        php: [ '7.4', '8.0', '8.1' ]        # PHP versions to check.
-        wp: [ 'latest', '5.9' ]             # WordPress version to check.
-        tools: [ composer ]
-        include:
-          - operating-system: ubuntu-18.04
-            php: 5.6
-            tools: composer:v2.2
-            wp: latest
-          - operating-system: ubuntu-18.04
-            php: 5.6
-            tools: composer:v2.2
-            wp: 5.9
+  phpcs:
+    name: PHP Syntax Check
+    uses: tarosky/workflows/.github/workflows/phpcs.yml@main
+    with:
+      version: 8.0
 
-    services:
-      mysql:
-        image: mysql:5.7
-        options: --health-cmd "mysqladmin ping --host 127.0.0.1 --port 3306" --health-interval 20s --health-timeout 10s --health-retries 10
-        ports:
-          - 3306/tcp
-        env:
-          MYSQL_ROOT_PASSWORD: root
-    name: WordPress ${{ matrix.wp }} in PHP ${{ matrix.php }} UnitTest
-    steps:
-      - uses: actions/checkout@master
-
-      - name: Setup PHP with composer v2
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          tools: ${{ matrix.tools }}
-
-      - name: Validate composer.json and composer.lock
-        run: composer validate
-
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
-
-      - name: Start MySQL
-        run: sudo systemctl start mysql
-
-      - name: Install WordPress
-        run: bash bin/install-wp-tests.sh wordpress root root 127.0.0.1:3306 ${{ matrix.wp }}
-
-      - name: Check PHP syntax
-        run: composer test
+  assets:
+    name: Stylelint & ESLint
+    uses: tarosky/workflows/.github/workflows/npm.yml@main
 
   release:
     name: Deploy WordPress.org
-    needs: test
+    needs: [ phpcs, assets ]
     if: contains(github.ref, 'tags/')
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-
       - name: Setup PHP with composer v2
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 5.6
-          tools: composer:v2.2
+          php-version: 7.4
+          tools: composer
 
       - name: Install Node
         uses: actions/setup-node@v1
         with:
-          node-version: '12'
+          node-version: '14'
 
       - name: Build Plugin
         run: bash bin/build.sh ${{ github.ref }}
 
-      - name: Clean package.
-        run: bash bin/clean.sh
+      - name: Clean Package
+        uses: tarosky/workflows/actions/distignore@main
 
       - name: Create Zip
         run: zip -r ${{ github.event.repository.name }}.zip ./

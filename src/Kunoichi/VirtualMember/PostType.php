@@ -37,7 +37,7 @@ class PostType extends Singleton {
 	protected function init() {
 		if ( ! defined( 'KVM_AS_PLUGIN' ) ) {
 			// This is not plugin. Needs original translation.
-			$po = sprintf( dirname( dirname( dirname( __DIR__ ) ) ) . '/languages/kvm-%s.mo', get_user_locale() );
+			$po = sprintf( dirname( __DIR__, 3 ) . '/languages/kvm-%s.mo', get_user_locale() );
 			load_textdomain( 'kvm', $po );
 		}
 		// Register controllers.
@@ -73,7 +73,7 @@ class PostType extends Singleton {
 			],
 			'public'       => self::virtual_member_is_public(),
 			'show_ui'      => true,
-			'supports'     => [ 'title', 'excerpt', 'editor', 'slug', 'thumbnail', 'custom-fields' ],
+			'supports'     => [ 'title', 'excerpt', 'editor', 'slug', 'thumbnail', 'custom-fields', 'page-attributes' ],
 			'show_in_rest' => true,
 			'rewrite'      => [
 				'slug'       => $this->get_post_type_rewrite(),

@@ -75,12 +75,12 @@ class SettingScreen extends Singleton {
 		//
 		// Basic setting.
 		//
-		add_settings_section( 'kvm-default', __( 'Basic Setting', 'kvm' ), function() {
+		add_settings_section( 'kvm-default', __( 'Basic Setting', 'kvm' ), function () {
 			// Do something.
 		}, $this->page );
 		// Post Type.
-		add_settings_field( 'kvm_available_post_types', __( 'Post Types', 'kvm' ), function() {
-			$post_types = array_filter( get_post_types( [ 'public' => true ], OBJECT ), function( $post_type ) {
+		add_settings_field( 'kvm_available_post_types', __( 'Post Types', 'kvm' ), function () {
+			$post_types = array_filter( get_post_types( [ 'public' => true ], OBJECT ), function ( $post_type ) {
 				return ! in_array( $post_type->name, [ 'attachment', $this->post_type() ], true );
 			} );
 			foreach ( $post_types as $post_type ) {
@@ -98,7 +98,7 @@ class SettingScreen extends Singleton {
 		}, $this->page, 'kvm-default' );
 		register_setting( $this->page, 'kvm_available_post_types' );
 		// Default
-		add_settings_field( 'kvm_default_user', __( 'Default Author', 'kvm' ), function() {
+		add_settings_field( 'kvm_default_user', __( 'Default Author', 'kvm' ), function () {
 			$users = $this->users( 'choose_default' );
 			if ( empty( $users ) ) {
 				printf( 'No member is registered. Please register at least 1 member.' );
@@ -128,7 +128,7 @@ class SettingScreen extends Singleton {
 		}, $this->page, 'kvm-default' );
 		register_setting( $this->page, 'kvm_default_user' );
 		// Is public.
-		add_settings_field( 'kvm_post_type_is_public', __( 'Public', 'kvm' ), function() {
+		add_settings_field( 'kvm_post_type_is_public', __( 'Public', 'kvm' ), function () {
 			printf(
 				'<label><input type="checkbox" name="kvm_post_type_is_public" value="1" %s/> %s</label><p class="description">%s</p>',
 				checked( (bool) get_option( 'kvm_post_type_is_public' ), true, false ),
@@ -138,7 +138,7 @@ class SettingScreen extends Singleton {
 		}, $this->page, 'kvm-default' );
 		register_setting( $this->page, 'kvm_post_type_is_public' );
 		// Contact Methods.
-		add_settings_field( 'kvm_contact_methods', __( 'Contact Methods', 'kvm' ), function() {
+		add_settings_field( 'kvm_contact_methods', __( 'Contact Methods', 'kvm' ), function () {
 			printf(
 				'<textarea name="kvm_contact_methods" placeholder="%s">%s</textarea><p class="description">%s</p>',
 				implode( '&#13;&#10;', array_map( 'esc_html', [ 'facebook,Facebook', 'twitter,Twitter' ] ) ),
@@ -147,14 +147,32 @@ class SettingScreen extends Singleton {
 			);
 		}, $this->page, 'kvm-default' );
 		register_setting( $this->page, 'kvm_contact_methods' );
+		// Allow multiple assign.
+		add_settings_field( 'kvm_allow_multiple_author', __( 'Allow Multiple Assign', 'kvm' ), function () {
+			foreach ( [
+				__( '1 author', 'kvm' )         => false,
+				__( 'Multiple Authors', 'kvm' ) => true,
+			] as $label => $value ) {
+				printf(
+					'<label style="display: inline-block; margin: 0 1em 1em 0;"><input type="radio" name="kvm_allow_multiple_author" value="%s" %s /> %s</label>',
+					( $value ? '1' : '' ),
+					checked( get_option( 'kvm_allow_multiple_author', '' ), $value, false ),
+					esc_html( $label )
+				);
+			}
+			printf(
+				'<p class="description">%s</p>',
+				esc_html__( 'If you allowed multiple author, the page order affects which author to be displayed, depending the theme.', 'kvm' )
+			);
+		}, $this->page, 'kvm-default' );
+		register_setting( $this->page, 'kvm_allow_multiple_author' );
 		//
 		// Override default.
 		//
-		add_settings_section( 'kvm-labels', __( 'Labels', 'kvm' ), function() {
-
+		add_settings_section( 'kvm-labels', __( 'Labels', 'kvm' ), function () {
 		}, $this->page );
 		// Post type label.
-		add_settings_field( 'kvm_post_type_label', __( 'Post Type Label', 'kvm' ), function() {
+		add_settings_field( 'kvm_post_type_label', __( 'Post Type Label', 'kvm' ), function () {
 			printf(
 				'<input class="regular-text" name="kvm_post_type_label" type="text" value="%s" placeholder="%s" />',
 				esc_attr( get_option( 'kvm_post_type_label' ) ),
@@ -163,7 +181,7 @@ class SettingScreen extends Singleton {
 		}, $this->page, 'kvm-labels' );
 		register_setting( $this->page, 'kvm_post_type_label' );
 		// Prefix.
-		add_settings_field( 'kvm_post_type_prefix', __( 'URL Prefix', 'kvm' ), function() {
+		add_settings_field( 'kvm_post_type_prefix', __( 'URL Prefix', 'kvm' ), function () {
 			printf(
 				'<input type="text" value="%s" name="kvm_post_type_prefix" placeholder="member" /><p class="description">%s</p>',
 				esc_attr( get_option( 'kvm_post_type_prefix' ) ),
