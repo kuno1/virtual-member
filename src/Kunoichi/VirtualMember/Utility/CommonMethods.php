@@ -135,21 +135,9 @@ trait CommonMethods {
 	 * @return \WP_Post|null
 	 */
 	protected function get_member( $post = null ) {
-		$post = get_post( $post );
-		if ( ! $post || ! $this->use_member( $post->post_type ) ) {
-			return null;
-		}
-		$author_id = get_post_meta( $post->ID, $this->meta_key(), true );
-		if ( $author_id ) {
-			$author_query = new \WP_Query( [
-				'post_type'      => $this->post_type(),
-				'post_status'    => 'publish',
-				'posts_per_page' => 1,
-				'p'              => $author_id,
-			] );
-			if ( $author_query->have_posts() ) {
-				return $author_query->posts[0];
-			}
+		$authors = $this->get_members( $post, 1 );
+		if ( $authors ) {
+			return $authors[0];
 		}
 		// Author not found. If default is set, get.
 		$default_author = PostType::default_user();
@@ -161,6 +149,33 @@ trait CommonMethods {
 			return $author;
 		}
 		return null;
+	}
+
+	/**
+	 * Get all members assigned to a post.
+	 *
+	 * @param int|null|\WP_Post $post
+	 * @param int               $posts_per_page
+	 *
+	 * @return \WP_Post[]
+	 */
+	public function get_members( $post = null, $posts_per_page = -1 ) {
+		$post = get_post( $post );
+		if ( ! $post || ! $this->use_member( $post->post_type ) ) {
+			return [];
+		}
+		$author_ids = array_map( 'intval', get_post_meta( $post->ID, $this->meta_key() ) );
+		if ( ! $author_ids ) {
+			return [];
+		}
+		$author_query = new \WP_Query( [
+			'post_type'      => $this->post_type(),
+			'post_status'    => 'publish',
+			'posts_per_page' => $posts_per_page,
+			'post__in'       => $author_ids,
+			'orderby'        => [ 'menu_order' => 'DESC' ],
+		] );
+		return $author_query->posts;
 	}
 
 	/**
