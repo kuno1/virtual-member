@@ -147,6 +147,25 @@ class SettingScreen extends Singleton {
 			);
 		}, $this->page, 'kvm-default' );
 		register_setting( $this->page, 'kvm_contact_methods' );
+		// Allow multiple assign.
+		add_settings_field( 'kvm_allow_multiple_author', __( 'Allow Multiple Assign', 'kvm' ), function() {
+			foreach ( [
+				__( '1 author', 'kvm' ) => false,
+				__( 'Multiple Authors', 'kvm' ) => true,
+			] as $label => $value ) {
+				printf(
+					'<label style="display: inline-block; margin: 0 1em 1em 0;"><input type="radio" name="kvm_allow_multiple_author" value="%s" %s /> %s</label>',
+					( $value ? '1' : '' ),
+					checked( get_option( 'kvm_allow_multiple_author', '' ), $value, false ),
+					esc_html( $label )
+				);
+			}
+			printf(
+				'<p class="description">%s</p>',
+				esc_html__( 'If you allowed multiple author, the page order affects which author to be displayed, depending the theme.', 'kvm' )
+			);
+		}, $this->page, 'kvm-default' );
+		register_setting( $this->page, 'kvm_allow_multiple_author' );
 		//
 		// Override default.
 		//

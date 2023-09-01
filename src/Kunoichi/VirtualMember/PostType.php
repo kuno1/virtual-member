@@ -73,7 +73,7 @@ class PostType extends Singleton {
 			],
 			'public'       => self::virtual_member_is_public(),
 			'show_ui'      => true,
-			'supports'     => [ 'title', 'excerpt', 'editor', 'slug', 'thumbnail', 'custom-fields' ],
+			'supports'     => [ 'title', 'excerpt', 'editor', 'slug', 'thumbnail', 'custom-fields', 'page-attributes' ],
 			'show_in_rest' => true,
 			'rewrite'      => [
 				'slug'       => $this->get_post_type_rewrite(),

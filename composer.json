@@ -28,5 +28,10 @@
         "psr-0": {
             "Kunoichi\\VirtualMember": "src"
         }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
 }

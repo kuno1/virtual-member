@@ -43,28 +43,17 @@ class MemberEditor extends Singleton {
 	}
 
 	/**
-	 * Render meta box.
+	 * Render meta box for single author.
 	 *
-	 * @param \WP_Post $post Post object.
+	 * @param \WP_Post   $post  Post object.
+	 * @param \WP_Post[] $users User objects.
+	 * @return void
 	 */
-	public function render_post_meta_box( $post ) {
-		$post_type_object = get_post_type_object( PostType::post_type() );
-		wp_nonce_field( 'virtual_member_as_author', '_kvmnonce', false );
-		$users      = get_posts( [
-			'post_type'      => $this->post_type(),
-			'post_status'    => 'publish',
-			'posts_per_page' => -1,
-		] );
+	protected function meta_box_for_single( $post, $users ) {
 		$current_id = (int) get_post_meta( $post->ID, $this->meta_key(), true );
 		?>
-		<p class="description">
-			<?php
-			// translators: %s is post type.
-			printf( __( 'To change post author of %s, please specify.', 'kvm' ), $post_type_object->label );
-			?>
-		</p>
 		<p>
-			<select name="virtual-author-id" id="virtual-author-id" style="box-sizing: border-box; max-width: 100%;">
+			<select name="virtual-author-id[]" id="virtual-author-id" style="box-sizing: border-box; max-width: 100%;">
 				<option value="0" <?php selected( $current_id, 0 ); ?>><?php esc_html_e( 'Not specify', 'kvm' ); ?></option>
 				<?php
 				foreach ( $users as $user ) :
@@ -98,6 +87,71 @@ class MemberEditor extends Singleton {
 	}
 
 	/**
+	 * Render meta box for single author.
+	 *
+	 * @param \WP_Post   $post  Post object.
+	 * @param \WP_Post[] $users User objects.
+	 *
+	 * @return void
+	 */
+	protected function meta_box_for_multiple( $post, $users ) {
+		$current_ids = array_map( 'intval', get_post_meta( $post->ID, $this->meta_key() ) );
+		?>
+		<p>
+			<?php foreach ( $users as $user ) :
+				$group = '';
+				$terms = get_the_terms( $user, $this->taxonomy() );
+				if ( $terms && ! is_wp_error( $terms ) ) {
+					$group = implode( ', ', array_map( function( $term ) {
+						return $term->name;
+					}, $terms ) );
+				}
+				$checked = in_array( $user->ID, $current_ids, true );
+				?>
+				<label style="display: block; padding: 2px 3px;">
+					<input type="checkbox" name="virtual-author-id[]" value="<?php echo esc_attr( $user->ID ); ?>" <?php checked( $checked ); ?> />
+					<?php echo esc_html( get_the_title( $user ) ); ?>
+					<?php if ( ! empty( $group ) ) : ?>
+					<small><?php printf( esc_html_x( ' (%s)', 'user-group', 'kvm' ), esc_html( $group ) ) ?></small>
+					<?php endif; ?>
+					<?php if ( PostType::default_user() === $user->ID ) : ?>
+					- <strong><?php esc_html_e( 'Default', 'kvm' ); ?></strong>
+					<?php endif; ?>
+				</label>
+			<?php endforeach; ?>
+		</p>
+		<?php
+	}
+
+	/**
+	 * Render meta box.
+	 *
+	 * @param \WP_Post $post Post object.
+	 */
+	public function render_post_meta_box( $post ) {
+		wp_nonce_field( 'virtual_member_as_author', '_kvmnonce', false );
+		$users      = get_posts( [
+			'post_type'      => $this->post_type(),
+			'post_status'    => 'publish',
+			'posts_per_page' => -1,
+		] );
+		$post_type_object = get_post_type_object( PostType::post_type() );
+		?>
+		<p class="description">
+			<?php
+			// translators: %s is post type.
+			printf( __( 'To change post author of %s, please specify.', 'kvm' ), $post_type_object->label );
+			?>
+		</p>
+		<?php
+		if ( get_option( 'kvm_allow_multiple_author' ) ) {
+			$this->meta_box_for_multiple( $post, $users );
+		} else {
+			$this->meta_box_for_single( $post, $users );
+		}
+	}
+
+	/**
 	 * Save post authors.
 	 *
 	 * @param int      $post_id
@@ -110,11 +164,12 @@ class MemberEditor extends Singleton {
 		if ( ! wp_verify_nonce( filter_input( INPUT_POST, '_kvmnonce' ), 'virtual_member_as_author' ) ) {
 			return;
 		}
-		$author_id = (int) filter_input( INPUT_POST, 'virtual-author-id' );
-		if ( $author_id ) {
-			update_post_meta( $post_id, $this->meta_key(), $author_id );
-		} else {
-			delete_post_meta( $post_id, $this->meta_key() );
+		$author_id = filter_input( INPUT_POST, 'virtual-author-id', FILTER_DEFAULT, [
+			'flags' => FILTER_REQUIRE_ARRAY
+		] );
+		delete_post_meta( $post_id, $this->meta_key() );
+		foreach ( $author_id as $id ) {
+			add_post_meta( $post_id, $this->meta_key(), $id );
 		}
 	}
 
