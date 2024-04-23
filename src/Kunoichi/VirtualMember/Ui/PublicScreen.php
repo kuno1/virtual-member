@@ -68,11 +68,18 @@ class PublicScreen extends Singleton {
 	 * @return string
 	 */
 	public function hook_author_archive( $link, $author_id, $author_nicename ) {
-		if ( (int) get_post()->post_author !== $author_id ) {
+		if ( is_admin() || ! in_the_loop() ) {
+			return $link;
+		}
+		$post = get_post();
+		if ( ! $post ) {
+			return $link;
+		}
+		if ( (int) $post->post_author !== $author_id ) {
 			// This is not in loop.
 			return $link;
 		}
-		$author_archive = $this->get_author_archive();
+		$author_archive = $this->get_author_archive( $post );
 		if ( $author_archive ) {
 			$link = $author_archive;
 		}
@@ -243,13 +250,18 @@ class PublicScreen extends Singleton {
 	/**
 	 * If user id is author of current post, return member if exists.
 	 *
-	 * @param int               $user_id User ID.
+	 * @param int|\WP_User      $user_id User ID.
 	 * @param \WP_Post|int|null $post    Default, current post.
 	 * @return \WP_Post|null
 	 */
 	protected function get_member_in_loop( $user_id, $post = null ) {
 		$post = get_post( $post );
-		if ( ! $post || ! $this->use_member( $post->post_type ) || (int) $user_id !== (int) $post->post_author ) {
+		if ( is_a( $user_id, 'WP_User' ) ) {
+			$user_id = $user_id->ID;
+		} else {
+			$user_id = (int) $user_id;
+		}
+		if ( ! $post || ! $this->use_member( $post->post_type ) || $user_id !== (int) $post->post_author ) {
 			// This is not post author.
 			return null;
 		}
