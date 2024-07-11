@@ -206,7 +206,7 @@ trait CommonMethods {
 	 *
 	 * @return string[]
 	 */
-	protected function custom_contact_methods() {
+	public function custom_contact_methods() {
 		$option  = get_option( 'kvm_contact_methods' );
 		$methods = [];
 		foreach ( array_filter( preg_split( "#(\r\n|\r|\n)#u", $option ) ) as $method ) {
