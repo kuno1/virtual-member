@@ -44,7 +44,9 @@ class PostType extends Singleton {
 		// Register controllers.
 		SettingScreen::get_instance();
 		MemberEditor::get_instance();
-		PublicScreen::get_instance();
+		if ( ! is_admin() ) {
+			PublicScreen::get_instance();
+		}
 		OgpProvider::get_instance();
 		// Register post type.
 		add_action( 'init', [ $this, 'register_post_type' ] );

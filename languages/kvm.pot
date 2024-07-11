@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kvm\n"
-"POT-Creation-Date: 2021-12-29 17:34+0900\n"
+"POT-Creation-Date: 2024-07-12 00:43+0900\n"
 "PO-Revision-Date: 2020-01-09 19:55+0900\n"
 "Last-Translator: Takahashi Fumiki <takahashi.fumiki@hametuha.co.jp>\n"
 "Language-Team: Kunoichi\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.4.2\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_x;esc_html__;esc_html_e\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -19,27 +19,27 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-1: node_modules\n"
 "X-Poedit-SearchPathExcluded-2: wordpress\n"
 
-#: src/Kunoichi/VirtualMember/PostType.php:69
+#: src/Kunoichi/VirtualMember/PostType.php:73
 msgid "Profile Picture"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/PostType.php:70
+#: src/Kunoichi/VirtualMember/PostType.php:74
 msgid "Set profile picture"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/PostType.php:71
+#: src/Kunoichi/VirtualMember/PostType.php:75
 msgid "Remove profile picture"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/PostType.php:72
+#: src/Kunoichi/VirtualMember/PostType.php:76
 msgid "Use as profile picture"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/PostType.php:95
+#: src/Kunoichi/VirtualMember/PostType.php:99
 msgid "Group"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/PostType.php:183
+#: src/Kunoichi/VirtualMember/PostType.php:185
 msgid "Member"
 msgstr ""
 
@@ -48,24 +48,37 @@ msgstr ""
 msgid "Contact Methods"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:63
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:40
+msgid "Organization"
+msgstr ""
+
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:58
+msgid "Not specify"
+msgstr ""
+
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:80
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:125
+msgid "Default"
+msgstr ""
+
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:150
 #, php-format
 msgid "To change post author of %s, please specify."
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:68
-msgid "Not specify"
-msgstr ""
-
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:90
-msgid "Default"
-msgstr ""
-
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:148
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:217
 msgid "Web Site"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:193
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:259
+msgid "This is organization"
+msgstr ""
+
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:265
+msgid "This is site representative"
+msgstr ""
+
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:287
 msgid "Default Member"
 msgstr ""
 
@@ -121,19 +134,35 @@ msgstr ""
 msgid "This will add extra contact methods to the user profile editor and also add meta box of member editor. Enter key and label in CSV format. e.g. facebook,Facebook"
 msgstr ""
 
+#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:151
+msgid "Allow Multiple Assign"
+msgstr ""
+
 #: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:153
+msgid "1 author"
+msgstr ""
+
+#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:154
+msgid "Multiple Authors"
+msgstr ""
+
+#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:165
+msgid "If you allowed multiple author, the page order affects which author to be displayed, depending the theme."
+msgstr ""
+
+#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:172
 msgid "Labels"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:157
+#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:175
 msgid "Post Type Label"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:166
+#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:184
 msgid "URL Prefix"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:170
+#: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:188
 msgid "This will be a part of URL if virtual member is a public post type."
 msgstr ""
 

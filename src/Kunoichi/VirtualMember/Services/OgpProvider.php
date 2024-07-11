@@ -84,7 +84,7 @@ class OgpProvider extends Singleton {
 			$ogp['description'] = wp_strip_all_tags( $post->post_excerpt );
 		}
 		$urls = [];
-		foreach ( PublicScreen::get_instance()->custom_contact_methods() as $key => $label ) {
+		foreach ( wp_get_user_contact_methods() as $key => $label ) {
 			$meta_value = get_post_meta( $post->ID, $key, true );
 			if ( $meta_value && preg_match( '#^https?://#u', $meta_value ) ) {
 				$urls[] = $meta_value;
