@@ -78,10 +78,10 @@ class OgpProvider extends Singleton {
 		}
 		$positions = get_the_terms( $post, PostType::get_instance()->taxonomy() );
 		if ( $positions && ! is_wp_error( $positions ) && ! $is_organization ) {
-			$ogp[ 'jobTitle' ] = $positions[ 0 ]->name;
+			$ogp['jobTitle'] = $positions[0]->name;
 		}
 		if ( has_excerpt( $post ) ) {
-			$ogp[ 'description' ] = wp_strip_all_tags( $post->post_excerpt );
+			$ogp['description'] = wp_strip_all_tags( $post->post_excerpt );
 		}
 		$urls = [];
 		foreach ( PublicScreen::get_instance()->custom_contact_methods() as $key => $label ) {
@@ -91,7 +91,7 @@ class OgpProvider extends Singleton {
 			}
 		}
 		if ( ! empty( $urls ) ) {
-			$ogp[ 'sameAs' ] = $urls;
+			$ogp['sameAs'] = $urls;
 		}
 
 		return $ogp;

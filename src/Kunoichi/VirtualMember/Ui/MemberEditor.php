@@ -204,7 +204,6 @@ class MemberEditor extends Singleton {
 			} else {
 				delete_post_meta( $post_id, $key );
 			}
-
 		}
 	}
 
