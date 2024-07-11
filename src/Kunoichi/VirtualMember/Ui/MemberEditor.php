@@ -37,6 +37,7 @@ class MemberEditor extends Singleton {
 		$post_type_object = get_post_type_object( $this->post_type() );
 		if ( $this->post_type() === $post_type ) {
 			add_meta_box( 'virtual-member-meta', __( 'Contact Methods', 'kvm' ), [ $this, 'render_member_meta_box' ], $post_type, 'advanced' );
+			add_meta_box( 'virtual-member-organization', __( 'Organization', 'kvm' ), [ $this, 'render_member_meta_box_organization' ], $post_type, 'side' );
 		} elseif ( $this->use_member( $post_type ) ) {
 			add_meta_box( 'virtual-member-id', $post_type_object->label, [ $this, 'render_post_meta_box' ], $post_type, 'side' );
 		}
@@ -197,6 +198,14 @@ class MemberEditor extends Singleton {
 		foreach ( $this->get_custom_metas() as $key => $label ) {
 			update_post_meta( $post_id, $key, filter_input( INPUT_POST, $key ) );
 		}
+		foreach ( [ '_is_organization', '_is_representative' ] as $key ) {
+			if ( filter_input( INPUT_POST, $key ) ) {
+				update_post_meta( $post_id, $key, 1 );
+			} else {
+				delete_post_meta( $post_id, $key );
+			}
+
+		}
 	}
 
 	/**
@@ -236,6 +245,30 @@ class MemberEditor extends Singleton {
 			<?php
 		endforeach;
 	}
+
+	/**
+	 * Render metabox for organization.
+	 *
+	 * @param \WP_Post $post Post object.
+	 * @return void
+	 */
+	public function render_member_meta_box_organization( $post ) {
+		?>
+		<p>
+			<label>
+				<input type="checkbox" name="_is_organization" value="1" <?php checked( PostType::is_organization( $post ) ); ?> />
+				<?php esc_html_e( 'This is organization', 'kvm' ); ?>
+			</label>
+		</p>
+		<p>
+			<label>
+				<input type="checkbox" name="_is_representative" value="1" <?php checked( get_post_meta( $post->ID, '_is_representative', true ), '1' ); ?> />
+				<?php esc_html_e( 'This is site representative', 'kvm' ); ?>
+			</label>
+		</p>
+		<?php
+	}
+
 
 	/**
 	 * Add hint.

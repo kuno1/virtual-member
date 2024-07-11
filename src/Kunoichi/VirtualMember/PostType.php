@@ -4,6 +4,7 @@ namespace Kunoichi\VirtualMember;
 
 
 use Kunoichi\VirtualMember\Pattern\Singleton;
+use Kunoichi\VirtualMember\Services\OgpProvider;
 use Kunoichi\VirtualMember\Ui\MemberEditor;
 use Kunoichi\VirtualMember\Ui\PublicScreen;
 use Kunoichi\VirtualMember\Ui\SettingScreen;
@@ -44,6 +45,7 @@ class PostType extends Singleton {
 		SettingScreen::get_instance();
 		MemberEditor::get_instance();
 		PublicScreen::get_instance();
+		OgpProvider::get_instance();
 		// Register post type.
 		add_action( 'init', [ $this, 'register_post_type' ] );
 		self::$is_activated = true;
@@ -206,5 +208,35 @@ class PostType extends Singleton {
 	 */
 	public function taxonomy() {
 		return apply_filters( 'kvm_taxonomy', 'member-group' );
+	}
+
+	/**
+	 * Is specified post is an organization.
+	 *
+	 *
+	 * @param null|int|\WP_Post $post Writer object.
+	 * @return bool
+	 */
+	public static function is_organization( $post = null ) {
+		$post = get_post( $post );
+		if ( ! $post || self::post_type() !== $post->post_type ) {
+			return false;
+		}
+		return (bool) get_post_meta( $post->ID, '_is_organization', true );
+	}
+
+	/**
+	 * Is specified post represents whole site.
+	 *
+	 *
+	 * @param null|int|\WP_Post $post Writer object.
+	 * @return bool
+	 */
+	public static function is_representative( $post = null ) {
+		$post = get_post( $post );
+		if ( ! $post || self::post_type() !== $post->post_type ) {
+			return false;
+		}
+		return (bool) get_post_meta( $post->ID, '_is_representative', true );
 	}
 }
