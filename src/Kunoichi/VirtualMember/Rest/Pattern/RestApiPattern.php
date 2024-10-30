@@ -36,7 +36,7 @@ abstract class RestApiPattern extends Singleton {
 	 *
 	 * @return string
 	 */
-	abstract protected function route():string;
+	abstract protected function route(): string;
 
 	/**
 	 * Register hooks.
@@ -77,7 +77,7 @@ abstract class RestApiPattern extends Singleton {
 	 * @param string $method HTTP methods.
 	 * @return array
 	 */
-	abstract protected function get_args( $method ):array;
+	abstract protected function get_args( $method ): array;
 
 	/**
 	 * Permission callback for API.
@@ -109,7 +109,7 @@ abstract class RestApiPattern extends Singleton {
 			'default'      => $this->instance()::default_user() === $user->ID,
 			'organization' => $this->instance()::is_organization( $user ),
 			'represents'   => $this->instance()::is_representative( $user ),
-			'group'        => $groups
+			'group'        => $groups,
 		];
 	}
 }

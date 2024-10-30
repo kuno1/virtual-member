@@ -49,15 +49,7 @@ class MemberEditor extends Singleton {
 				'search' => sprintf( __( 'Type and search %s.', 'kvm' ), PostType::get_instance()->get_post_type_label() ),
 				'slabel' => __( 'Search' ),
 			] );
-			// Check if this is block editor.
-			$screen = get_current_screen();
-			if ( $screen->is_block_editor() && get_option( 'kvm_allow_multiple_author' ) ) {
-				// Multiple author on block editor.
-//				wp_enqueue_script( 'kvm-user-selector-block-editor' );
-			} else {
-				// Requires meta box.
-				add_meta_box( 'virtual-member-id', $post_type_object->label, [ $this, 'render_post_meta_box' ], $post_type, 'side' );
-			}
+			add_meta_box( 'virtual-member-id', $post_type_object->label, [ $this, 'render_post_meta_box' ], $post_type, 'side' );
 		}
 	}
 
@@ -109,11 +101,10 @@ class MemberEditor extends Singleton {
 	 * Render meta box for single author.
 	 *
 	 * @param \WP_Post   $post  Post object.
-	 * @param \WP_Post[] $users User objects.
 	 *
 	 * @return void
 	 */
-	protected function meta_box_for_multiple( $post, $users ) {
+	protected function meta_box_for_multiple( $post ) {
 		wp_enqueue_script( 'kvm-user-selector-classic-editor' );
 		?>
 		<div id="kvm-user-selector-classic" data-post-id="<?php echo esc_attr( $post->ID ); ?>">
@@ -143,7 +134,7 @@ class MemberEditor extends Singleton {
 		</p>
 		<?php
 		if ( get_option( 'kvm_allow_multiple_author' ) ) {
-			$this->meta_box_for_multiple( $post, $users );
+			$this->meta_box_for_multiple( $post );
 		} else {
 			$this->meta_box_for_single( $post, $users );
 		}

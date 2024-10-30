@@ -39,9 +39,9 @@ class SearchAuthorsApi extends RestApiPattern {
 			'orderby'        => [ 'post_title' => 'ASC' ],
 			's'              => $request->get_param( 's' ),
 		] );
-		return new \WP_REST_Response( array_map( function( $post ) {
+		return new \WP_REST_Response( array_map( function ( $post ) {
 			return $this->convert( $post );
-		},$author_query->posts ) );
+		}, $author_query->posts ) );
 	}
 
 	public function permission_callback( $request ) {

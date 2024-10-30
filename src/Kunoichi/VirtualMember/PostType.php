@@ -126,7 +126,7 @@ class PostType extends Singleton {
 		if ( ! $dependencies ) {
 			trigger_error( 'wp-dependencies.json is invalid.', E_USER_WARNING );
 		}
-		if ( str_contains( $base, WP_PLUGIN_DIR ) || str_contains($base, WPMU_PLUGIN_DIR ) ) {
+		if ( str_contains( $base, WP_PLUGIN_DIR ) || str_contains( $base, WPMU_PLUGIN_DIR ) ) {
 			// This is plugin.
 			$url = plugin_dir_url( $base . '/assets' );
 		} elseif ( str_contains( $base, get_theme_root() ) ) {

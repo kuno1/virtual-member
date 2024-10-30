@@ -9,7 +9,7 @@
 /* global KvmUserSelector:false */
 
 const { useState, useEffect } = wp.element;
-const { FormTokenField, Button, Icon, ComboboxControl } = wp.components;
+const { Button, Icon, ComboboxControl } = wp.components;
 const { apiFetch } = wp;
 
 const UserToken = ( { user, onUserDelete } ) => {
@@ -24,33 +24,34 @@ const UserToken = ( { user, onUserDelete } ) => {
 };
 
 const UserComboBox = ( { onUserSelected } ) => {
-	const [query, setQuery] = useState('');
-	const [users, setUsers] = useState([]);
-	const [selectedOption, setSelectedOption] = useState(null);
-	const [timer, setTimer] = useState(null);
+	const [ query, setQuery ] = useState( '' );
+	const [ users, setUsers ] = useState( [] );
+	const [ selectedOption, setSelectedOption ] = useState( null );
+	const [ timer, setTimer ] = useState( null );
 
 	// Do incremental search
-	useEffect(() => {
+	useEffect( () => {
 		if ( timer ) {
 			clearTimeout( timer );
 		}
 		setTimer( setTimeout( () => {
-			if (query) {
+			if ( query ) {
 				// Search authros via API
 				const fetchOptions = async () => {
-					const response = await apiFetch({ path: `/kvm/v1/authors/search?s=${query}` });
+					const response = await apiFetch( { path: `/kvm/v1/authors/search?s=${ query }` } );
 					setUsers( response );
 				};
 				try {
 					fetchOptions();
 				} catch ( error ) {
-					setUsers([]);
+					setUsers( [] );
 				}
 			} else {
-				setUsers([]);
+				setUsers( [] );
 			}
 		}, 300 ) );
-	}, [query] );
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [ query ] );
 
 	return (
 		<ComboboxControl
@@ -58,9 +59,9 @@ const UserComboBox = ( { onUserSelected } ) => {
 			placeholder={ KvmUserSelector.search }
 			value={ selectedOption }
 			options={ users.map( ( user ) => {
-				return { label: user.name, value: user.id }
+				return { label: user.name, value: user.id };
 			} ) }
-			onChange={ (value) => {
+			onChange={ ( value ) => {
 				// User is selected.
 				users.forEach( ( user ) => {
 					if ( user.id === value ) {
@@ -69,35 +70,37 @@ const UserComboBox = ( { onUserSelected } ) => {
 				} );
 				setSelectedOption( '' );
 			} }
-			onFilterValueChange={(newQuery) => setQuery(newQuery)}
+			onFilterValueChange={ ( newQuery ) => setQuery( newQuery ) }
 		/>
 	);
 };
-
 
 /**
  * User Select components.
  */
 
 const UserSelectorComponent = ( { post, onUserChange } ) => {
-	const [ users, setUsers ] = useState([]);
+	const [ users, setUsers ] = useState( [] );
 
 	useEffect( () => {
 		const fetchUsers = async () => {
 			try {
 				const response = await apiFetch( {
-					path: `/kvm/v1/authors/of/${ post }`
+					path: `/kvm/v1/authors/of/${ post }`,
 				} );
 				setUsers( response );
 			} catch ( error ) {
+				// eslint-disable-next-line no-undef
 				alert( error.message || 'Error' );
 			}
 		};
 		fetchUsers();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [] );
 
 	useEffect( () => {
 		onUserChange( users );
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ users ] );
 
 	const removeUser = ( user ) => {
@@ -106,6 +109,7 @@ const UserSelectorComponent = ( { post, onUserChange } ) => {
 			if ( u.id !== user.id ) {
 				newUsers.push( u );
 			}
+			return u;
 		} );
 		setUsers( newUsers );
 	};
@@ -117,7 +121,7 @@ const UserSelectorComponent = ( { post, onUserChange } ) => {
 					{
 						users.map( ( user ) => {
 							return <UserToken key={ user.id } user={ user }
-								onUserDelete={ ( user ) => removeUser( user ) } />;
+								onUserDelete={ ( u ) => removeUser( u ) } />;
 						} )
 					}
 				</div>

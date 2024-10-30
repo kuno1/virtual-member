@@ -1,6 +1,0 @@
-/*!
- * User selector for block editor
- *
- * @handle kvm-user-selector-block-editor
- * @deps kvm-user-selector, wp-plugins, wp-edit-post, wp-i18n, wp-components
- */

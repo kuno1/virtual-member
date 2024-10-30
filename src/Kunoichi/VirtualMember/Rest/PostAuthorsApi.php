@@ -16,12 +16,12 @@ class PostAuthorsApi extends RestApiPattern {
 	protected function get_args( $method ): array {
 		return [
 			'post_id' => [
-				'type'     => 'integer',
-				'required' => true,
-				'validate_callback' => function( $post_id ) {
+				'type'              => 'integer',
+				'required'          => true,
+				'validate_callback' => function ( $post_id ) {
 					$post = get_post( $post_id );
 					return $post && $this->use_member( $post->post_type );
-				}
+				},
 			],
 		];
 	}
@@ -33,9 +33,9 @@ class PostAuthorsApi extends RestApiPattern {
 	 * @return \WP_REST_Response
 	 */
 	public function handle_get( $request ) {
-		return new \WP_REST_Response( array_map( function( $post ) {
+		return new \WP_REST_Response( array_map( function ( $post ) {
 			return $this->convert( $post );
-		},$this->get_members( $request->get_param( 'post_id' ) ) ) );
+		}, $this->get_members( $request->get_param( 'post_id' ) ) ) );
 	}
 
 	public function permission_callback( $request ) {
