@@ -16,7 +16,7 @@ jobs:
     name: Stylelint & ESLint
     uses: tarosky/workflows/.github/workflows/npm.yml@main
     with:
-        node-version: 20
+        node_version: 20
 
   status-check:
     name: Status Check
