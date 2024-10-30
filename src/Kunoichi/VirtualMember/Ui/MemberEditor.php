@@ -45,7 +45,9 @@ class MemberEditor extends Singleton {
 			wp_localize_script( 'kvm-user-selector', 'KvmUserSelector', [
 				// translators: %s is post type label.
 				'label'  => sprintf( __( '%s for this post', 'kvm' ), PostType::get_instance()->get_post_type_label() ),
+				// translators: %s is post type label.
 				'nouser' => sprintf( __( 'No %s', 'kvm' ), PostType::get_instance()->get_post_type_label() ),
+				// translators: %s is post type label.
 				'search' => sprintf( __( 'Type and search %s.', 'kvm' ), PostType::get_instance()->get_post_type_label() ),
 				'slabel' => __( 'Search' ),
 			] );
