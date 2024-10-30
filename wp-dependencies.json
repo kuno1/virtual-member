@@ -1,0 +1,44 @@
+[
+	{
+		"handle": "kvm-user-selector",
+		"path": "dist/js/user-selector.js",
+		"ext": "js",
+		"hash": "b347f3fbe1150d20e9fb3628822dad77",
+		"version": "0.0.0",
+		"deps": [
+			"wp-element",
+			"wp-api-fetch",
+			"wp-components",
+			"wp-i18n"
+		],
+		"footer": true,
+		"media": "all"
+	},
+	{
+		"handle": "kvm-user-selector-classic-editor",
+		"path": "dist/js/user-selector-classic-editor.js",
+		"ext": "js",
+		"hash": "5abbda4bf87c7285e3a6f28bf819cbb4",
+		"version": "0.0.0",
+		"deps": [
+			"kvm-user-selector",
+			"wp-i18n",
+			"wp-components",
+			"wp-element"
+		],
+		"footer": true,
+		"media": "all"
+	},
+	{
+		"handle": "kvm-user-selector",
+		"path": "dist/css/user-selector.css",
+		"ext": "css",
+		"hash": "ebe1dc3dba906eb57a94eed1368e2cbc",
+		"version": "0.0.0",
+		"deps": [
+			"wp-components"
+		],
+		"footer": true,
+		"media": "all"
+	}
+]

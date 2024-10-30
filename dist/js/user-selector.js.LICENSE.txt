@@ -1,0 +1,7 @@
+/*!
+ * User Selector
+ *
+ * @handle kvm-user-selector
+ *
+ * @deps wp-element, wp-api-fetch, wp-components, wp-i18n
+ */

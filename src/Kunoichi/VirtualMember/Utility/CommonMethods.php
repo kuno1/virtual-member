@@ -79,12 +79,21 @@ trait CommonMethods {
 	}
 
 	/**
+	 * Get post type instance.
+	 *
+	 * @return PostType Post type instance.
+	 */
+	protected function instance() {
+		return PostType::get_instance();
+	}
+
+	/**
 	 * Get post type.
 	 *
 	 * @return string
 	 */
 	protected function post_type() {
-		return PostType::post_type();
+		return $this->instance()->post_type();
 	}
 
 	/**

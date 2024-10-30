@@ -4,6 +4,8 @@ namespace Kunoichi\VirtualMember;
 
 
 use Kunoichi\VirtualMember\Pattern\Singleton;
+use Kunoichi\VirtualMember\Rest\PostAuthorsApi;
+use Kunoichi\VirtualMember\Rest\SearchAuthorsApi;
 use Kunoichi\VirtualMember\Services\OgpProvider;
 use Kunoichi\VirtualMember\Ui\MemberEditor;
 use Kunoichi\VirtualMember\Ui\PublicScreen;
@@ -48,8 +50,13 @@ class PostType extends Singleton {
 			PublicScreen::get_instance();
 		}
 		OgpProvider::get_instance();
+		// REST API
+		PostAuthorsApi::get_instance();
+		SearchAuthorsApi::get_instance();
 		// Register post type.
 		add_action( 'init', [ $this, 'register_post_type' ] );
+		// Register assets.
+		add_action( 'init', [ $this, 'register_assets' ] );
 		self::$is_activated = true;
 	}
 
@@ -102,6 +109,51 @@ class PostType extends Singleton {
 			'show_admin_column' => true,
 		] );
 		register_taxonomy( $this->taxonomy(), $objects, $taxonomy_args );
+	}
+
+	/**
+	 * Register assets.
+	 *
+	 * @return void
+	 */
+	public function register_assets() {
+		$base = dirname( __DIR__, 3 );
+		$path = $base . '/wp-dependencies.json';
+		if ( ! file_exists( $path ) ) {
+			trigger_error( 'wp-dependencies.json not found.', E_USER_WARNING );
+		}
+		$dependencies = json_decode( file_get_contents( $path ), true );
+		if ( ! $dependencies ) {
+			trigger_error( 'wp-dependencies.json is invalid.', E_USER_WARNING );
+		}
+		if ( str_contains( $base, WP_PLUGIN_DIR ) || str_contains( $base, WPMU_PLUGIN_DIR ) ) {
+			// This is plugin.
+			$url = plugin_dir_url( $base . '/assets' );
+		} elseif ( str_contains( $base, get_theme_root() ) ) {
+			// This is theme.
+			$url = str_replace( get_theme_root(), get_theme_root_uri(), $base );
+		} else {
+			$url = str_replace( ABSPATH, network_home_url( '/' ), $base );
+		}
+		foreach ( $dependencies as $dep ) {
+			if ( empty( $dep['path'] ) ) {
+				continue;
+			}
+			$src = trailingslashit( $url ) . $dep['path'];
+			switch ( $dep['ext'] ) {
+				case 'js':
+					wp_register_script( $dep['handle'], $src, $dep['deps'], $dep['hash'], [
+						'in_footer' => true,
+					] );
+					if ( in_array( 'wp-i18n', $dep['deps'], true ) ) {
+						wp_set_script_translations( $dep['handle'], 'kvm', $base . '/languages' );
+					}
+					break;
+				case 'css':
+					wp_register_style( $dep['handle'], $src, $dep['deps'], $dep['hash'], 'screen' );
+					break;
+			}
+		}
 	}
 
 	/**
@@ -181,7 +233,7 @@ class PostType extends Singleton {
 	 *
 	 * @return string
 	 */
-	protected function get_post_type_label() {
+	public function get_post_type_label() {
 		return get_option( 'kvm_post_type_label' ) ?: __( 'Member', 'kvm' );
 	}
 
