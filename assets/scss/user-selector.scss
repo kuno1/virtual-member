@@ -1,0 +1,19 @@
+/*!
+ * User selector
+ *
+ * @handle kvm-user-selector
+ * @deps wp-components
+ */
+
+.kvm-user-token {
+	display: inline-block;
+}
+
+.kvm-user-token-wrapper {
+	margin: 1rem 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1em;
+	justify-content: flex-start;
+	align-items: flex-start;
+}

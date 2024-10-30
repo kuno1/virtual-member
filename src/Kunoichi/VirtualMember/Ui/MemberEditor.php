@@ -39,7 +39,25 @@ class MemberEditor extends Singleton {
 			add_meta_box( 'virtual-member-meta', __( 'Contact Methods', 'kvm' ), [ $this, 'render_member_meta_box' ], $post_type, 'advanced' );
 			add_meta_box( 'virtual-member-organization', __( 'Organization', 'kvm' ), [ $this, 'render_member_meta_box_organization' ], $post_type, 'side' );
 		} elseif ( $this->use_member( $post_type ) ) {
-			add_meta_box( 'virtual-member-id', $post_type_object->label, [ $this, 'render_post_meta_box' ], $post_type, 'side' );
+			// Enqeueue style
+			wp_enqueue_style( 'kvm-user-selector' );
+			// Register translation.
+			wp_localize_script( 'kvm-user-selector', 'KvmUserSelector', [
+				// translators: %s is post type label.
+				'label'  => sprintf( __( '%s for this post', 'kvm' ), PostType::get_instance()->get_post_type_label() ),
+				'nouser' => sprintf( __( 'No %s', 'kvm' ), PostType::get_instance()->get_post_type_label() ),
+				'search' => sprintf( __( 'Type and search %s.', 'kvm' ), PostType::get_instance()->get_post_type_label() ),
+				'slabel' => __( 'Search' ),
+			] );
+			// Check if this is block editor.
+			$screen = get_current_screen();
+			if ( $screen->is_block_editor() && get_option( 'kvm_allow_multiple_author' ) ) {
+				// Multiple author on block editor.
+//				wp_enqueue_script( 'kvm-user-selector-block-editor' );
+			} else {
+				// Requires meta box.
+				add_meta_box( 'virtual-member-id', $post_type_object->label, [ $this, 'render_post_meta_box' ], $post_type, 'side' );
+			}
 		}
 	}
 
@@ -96,37 +114,10 @@ class MemberEditor extends Singleton {
 	 * @return void
 	 */
 	protected function meta_box_for_multiple( $post, $users ) {
-		$current_ids = array_map( 'intval', get_post_meta( $post->ID, $this->meta_key() ) );
+		wp_enqueue_script( 'kvm-user-selector-classic-editor' );
 		?>
-		<p>
-			<?php
-			foreach ( $users as $user ) :
-				$group = '';
-				$terms = get_the_terms( $user, $this->taxonomy() );
-				if ( $terms && ! is_wp_error( $terms ) ) {
-					$group = implode( ', ', array_map( function ( $term ) {
-						return $term->name;
-					}, $terms ) );
-				}
-				$checked = in_array( $user->ID, $current_ids, true );
-				?>
-				<label style="display: block; padding: 2px 3px;">
-					<input type="checkbox" name="virtual-author-id[]" value="<?php echo esc_attr( $user->ID ); ?>" <?php checked( $checked ); ?> />
-					<?php echo esc_html( get_the_title( $user ) ); ?>
-					<?php if ( ! empty( $group ) ) : ?>
-					<small>
-						<?php
-						// translators: %s is user group.
-						printf( esc_html_x( ' (%s)', 'user-group', 'kvm' ), esc_html( $group ) );
-						?>
-					</small>
-					<?php endif; ?>
-					<?php if ( PostType::default_user() === $user->ID ) : ?>
-					- <strong><?php esc_html_e( 'Default', 'kvm' ); ?></strong>
-					<?php endif; ?>
-				</label>
-			<?php endforeach; ?>
-		</p>
+		<div id="kvm-user-selector-classic" data-post-id="<?php echo esc_attr( $post->ID ); ?>">
+		</div>
 		<?php
 	}
 
@@ -147,7 +138,7 @@ class MemberEditor extends Singleton {
 		<p class="description">
 			<?php
 			// translators: %s is post type.
-			printf( __( 'To change post author of %s, please specify.', 'kvm' ), $post_type_object->label );
+			printf( __( 'To change %s of this post, please specify.', 'kvm' ), $post_type_object->label );
 			?>
 		</p>
 		<?php

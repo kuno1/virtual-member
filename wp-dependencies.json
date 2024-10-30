@@ -1,0 +1,60 @@
+[
+	{
+		"handle": "kvm-user-selector",
+		"path": "dist/js/user-selector.js",
+		"ext": "js",
+		"hash": "c7b1547758e27c43dadb548508b46772",
+		"version": "0.0.0",
+		"deps": [
+			"wp-element",
+			"wp-api-fetch",
+			"wp-components",
+			"wp-i18n"
+		],
+		"footer": true,
+		"media": "all"
+	},
+	{
+		"handle": "kvm-user-selector-classic-editor",
+		"path": "dist/js/user-selector-classic-editor.js",
+		"ext": "js",
+		"hash": "1f960627ee686eba66e98ad3e888d646",
+		"version": "0.0.0",
+		"deps": [
+			"kvm-user-selector",
+			"wp-i18n",
+			"wp-components",
+			"wp-element"
+		],
+		"footer": true,
+		"media": "all"
+	},
+	{
+		"handle": "kvm-user-selector-block-editor",
+		"path": "dist/js/user-selector-block-editor.js",
+		"ext": "js",
+		"hash": "2f792e9839359ea2d74c87adf4127315",
+		"version": "0.0.0",
+		"deps": [
+			"kvm-user-selector",
+			"wp-plugins",
+			"wp-edit-post",
+			"wp-i18n",
+			"wp-components"
+		],
+		"footer": true,
+		"media": "all"
+	},
+	{
+		"handle": "kvm-user-selector",
+		"path": "dist/css/user-selector.css",
+		"ext": "css",
+		"hash": "ebe1dc3dba906eb57a94eed1368e2cbc",
+		"version": "0.0.0",
+		"deps": [
+			"wp-components"
+		],
+		"footer": true,
+		"media": "all"
+	}
+]
