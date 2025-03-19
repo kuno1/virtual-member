@@ -9,9 +9,12 @@ jobs:
   release:
     name: Create Release
     runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://packagist.org/packages/kunoichi/virtual-member
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@main
 
       - name: Setup PHP with composer v2
         uses: shivammathur/setup-php@v2
@@ -20,7 +23,7 @@ jobs:
           tools: composer
 
       - name: Install Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
 
