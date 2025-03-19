@@ -23,13 +23,16 @@
 	},
 	"author": "Tarosky inc.",
 	"license": "LGPL-3.0-or-later",
+	"engines": {
+		"node": "20.18.0"
+	},
 	"volta": {
 		"node": "20.18.0"
 	},
 	"devDependencies": {
 		"@kunoichi/grab-deps": "^1.3.0",
 		"@wordpress/env": "^9.10.0",
-		"@wordpress/scripts": "^30.4.0",
+		"@wordpress/scripts": "^27.0.0",
 		"cssnano": "^7.0.1",
 		"glob": "^11.0.0",
 		"npm-watch": "^0.13.0",

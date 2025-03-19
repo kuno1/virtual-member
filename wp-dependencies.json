@@ -3,7 +3,7 @@
 		"handle": "kvm-user-selector",
 		"path": "dist/js/user-selector.js",
 		"ext": "js",
-		"hash": "b347f3fbe1150d20e9fb3628822dad77",
+		"hash": "4e537767eadb0fffc3e1ad9d8477cf59",
 		"version": "0.0.0",
 		"deps": [
 			"wp-element",
@@ -18,7 +18,7 @@
 		"handle": "kvm-user-selector-classic-editor",
 		"path": "dist/js/user-selector-classic-editor.js",
 		"ext": "js",
-		"hash": "5abbda4bf87c7285e3a6f28bf819cbb4",
+		"hash": "a1498ac7d1395b4814f775275a8983be",
 		"version": "0.0.0",
 		"deps": [
 			"kvm-user-selector",
