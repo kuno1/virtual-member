@@ -5,6 +5,9 @@ Plugin URI: https://wordpress.org/plugins/virtual-member/
 Description: Add virtual member to represent authors who are not users of WordPress.
 Author: Kunoichi INC.
 Version: nightly
+Tested up to: 6.8
+Requires at least: 6.3
+Requires PHP: 7.4
 Author URI: https://tarosky.co.jp/
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
