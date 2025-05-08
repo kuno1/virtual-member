@@ -2,7 +2,7 @@
 /**
 Plugin Name: Virtual Member
 Plugin URI: https://wordpress.org/plugins/virtual-member/
-Description: Add virtual member to represents authors who are not users of WordPress.
+Description: Add virtual member to represent authors who are not users of WordPress.
 Author: Kunoichi INC.
 Version: nightly
 Author URI: https://tarosky.co.jp/
@@ -20,12 +20,10 @@ const KVM_AS_PLUGIN = true;
  * Init plugins.
  */
 function kvm_init() {
-	// Register translations.
-	load_plugin_textdomain( 'kvm', false, basename( __DIR__ ) . '/languages' );
 	// Composer.
 	$composer = __DIR__ . '/vendor/autoload.php';
 	if ( ! file_exists( $composer ) ) {
-		trigger_error( __( 'Compose file is missing.', 'kvm' ), E_USER_ERROR );
+		trigger_error( 'Compose file is missing.', E_USER_ERROR );
 	}
 	// Boostrap.
 	require_once $composer;
