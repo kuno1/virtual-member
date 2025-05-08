@@ -193,7 +193,7 @@ class PostType extends Singleton {
 	 */
 	public static function register( $settings = [], $post_type = '' ) {
 		$instance = static::get_instance();
-		add_action( 'init', function() use ( $instance, $settings, $post_type ) {
+		add_action( 'init', function () use ( $instance, $settings, $post_type ) {
 			$instance->set_setting( $settings, $post_type );
 		}, 10 );
 		return $instance;
