@@ -3,6 +3,6 @@
  *
  * @handle kvm-user-selector
  * @deps wp-components
- */.kvm-user-token{display:inline-block}.kvm-user-token-wrapper{margin:1rem 0;display:flex;flex-wrap:wrap;gap:1em;justify-content:flex-start;align-items:flex-start}
+ */.kvm-user-token{display:inline-block;text-align:start}.kvm-user-token-wrapper{margin:1rem 0;display:flex;flex-wrap:wrap;gap:1em;justify-content:flex-start;align-items:flex-start}.kvm-user-token-wrapper .components-button{height:auto !important;white-space:pre-wrap}
 
-/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL2Fzc2V0cy9zY3NzL3VzZXItc2VsZWN0b3Iuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7Ozs7RUFBQSxDQU9BLGdCQUNDLG9CQUFBLENBR0Qsd0JBQ0MsYUFBQSxDQUNBLFlBQUEsQ0FDQSxjQUFBLENBQ0EsT0FBQSxDQUNBLDBCQUFBLENBQ0Esc0JBQUEiLCJmaWxlIjoidXNlci1zZWxlY3Rvci5jc3MifQ== */
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL2Fzc2V0cy9zY3NzL3VzZXItc2VsZWN0b3Iuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7Ozs7RUFBQSxDQU9BLGdCQUNDLG9CQUFBLENBQ0EsZ0JBQUEsQ0FHRCx3QkFDQyxhQUFBLENBQ0EsWUFBQSxDQUNBLGNBQUEsQ0FDQSxPQUFBLENBQ0EsMEJBQUEsQ0FDQSxzQkFBQSxDQUVBLDJDQUNDLHNCQUFBLENBQ0Esb0JBQUEiLCJmaWxlIjoidXNlci1zZWxlY3Rvci5jc3MifQ== */

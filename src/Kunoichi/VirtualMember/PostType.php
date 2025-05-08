@@ -38,11 +38,8 @@ class PostType extends Singleton {
 	 * Constructor
 	 */
 	protected function init() {
-		if ( ! defined( 'KVM_AS_PLUGIN' ) ) {
-			// This is not plugin. Needs original translation.
-			$po = sprintf( dirname( __DIR__, 3 ) . '/languages/kvm-%s.mo', get_user_locale() );
-			load_textdomain( 'kvm', $po );
-		}
+		// Register translations.
+		$this->load_textdomain();
 		// Register controllers.
 		SettingScreen::get_instance();
 		MemberEditor::get_instance();
@@ -54,10 +51,26 @@ class PostType extends Singleton {
 		PostAuthorsApi::get_instance();
 		SearchAuthorsApi::get_instance();
 		// Register post type.
-		add_action( 'init', [ $this, 'register_post_type' ] );
+		add_action( 'init', [ $this, 'register_post_type' ], 11 );
 		// Register assets.
-		add_action( 'init', [ $this, 'register_assets' ] );
+		add_action( 'init', [ $this, 'register_assets' ], 12 );
 		self::$is_activated = true;
+	}
+
+	/**
+	 * Load text domain.
+	 *
+	 * @return void
+	 */
+	public function load_textdomain() {
+		$basedir = dirname( __DIR__, 3 );
+		if ( ! defined( 'KVM_AS_PLUGIN' ) ) {
+			// This is not a plugin. Needs original translation.
+			$po = sprintf( $basedir . '/languages/kvm-%s.mo', get_user_locale() );
+			load_textdomain( 'kvm', $po );
+		} else {
+			load_plugin_textdomain( 'kvm', false, basename( $basedir ) . '/languages' );
+		}
 	}
 
 	/**
@@ -180,7 +193,9 @@ class PostType extends Singleton {
 	 */
 	public static function register( $settings = [], $post_type = '' ) {
 		$instance = static::get_instance();
-		$instance->set_setting( $settings, $post_type );
+		add_action( 'init', function() use ( $instance, $settings, $post_type ) {
+			$instance->set_setting( $settings, $post_type );
+		}, 10 );
 		return $instance;
 	}
 
@@ -194,7 +209,7 @@ class PostType extends Singleton {
 	}
 
 	/**
-	 * Get post type.
+	 * Get the post-type.
 	 *
 	 * @return string
 	 */
@@ -203,7 +218,7 @@ class PostType extends Singleton {
 	}
 
 	/**
-	 * Get available post types.
+	 * Get available post-types.
 	 *
 	 * @return string[]
 	 */
