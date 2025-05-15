@@ -41,7 +41,7 @@ const UserComboBox = ( { onUserSelected } ) => {
 					path: `/kvm/v1/authors/search?s=${ query }`,
 				} ).then( ( response ) => {
 					setUsers( response );
-				} ).catch( ( error ) => {
+				} ).catch( () => {
 					setUsers( [] );
 				} );
 			} else {
@@ -85,10 +85,11 @@ const UserSelectorComponent = ( { post, onUserChange } ) => {
 			path: `/kvm/v1/authors/of/${ post }`,
 		} ).then( ( response ) => {
 			setUsers( response );
-		} ).catch( error => {
+		} ).catch( ( error ) => {
 			// eslint-disable-next-line no-undef
 			alert( error.message || 'Error' );
 		} );
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [] );
 
 	useEffect( () => {
