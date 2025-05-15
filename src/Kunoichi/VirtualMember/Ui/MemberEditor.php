@@ -39,7 +39,7 @@ class MemberEditor extends Singleton {
 			add_meta_box( 'virtual-member-meta', __( 'Contact Methods', 'kvm' ), [ $this, 'render_member_meta_box' ], $post_type, 'advanced' );
 			add_meta_box( 'virtual-member-organization', __( 'Organization', 'kvm' ), [ $this, 'render_member_meta_box_organization' ], $post_type, 'side' );
 		} elseif ( $this->use_member( $post_type ) ) {
-			// Enqeueue style
+			// Enqueue style
 			wp_enqueue_style( 'kvm-user-selector' );
 			// Register translation.
 			wp_localize_script( 'kvm-user-selector', 'KvmUserSelector', [
@@ -100,7 +100,7 @@ class MemberEditor extends Singleton {
 	}
 
 	/**
-	 * Render meta box for single author.
+	 * Render the meta box for single author.
 	 *
 	 * @param \WP_Post   $post  Post object.
 	 *

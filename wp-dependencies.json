@@ -12,7 +12,8 @@
 			"wp-i18n"
 		],
 		"footer": true,
-		"media": "all"
+		"media": "all",
+		"strategy": ""
 	},
 	{
 		"handle": "kvm-user-selector-classic-editor",
@@ -23,22 +24,23 @@
 		"deps": [
 			"kvm-user-selector",
 			"wp-i18n",
-			"wp-components",
 			"wp-element"
 		],
 		"footer": true,
-		"media": "all"
+		"media": "all",
+		"strategy": ""
 	},
 	{
 		"handle": "kvm-user-selector",
 		"path": "dist/css/user-selector.css",
 		"ext": "css",
-		"hash": "ebe1dc3dba906eb57a94eed1368e2cbc",
+		"hash": "08b4e4a7394e9c4202dcb174eee409bb",
 		"version": "0.0.0",
 		"deps": [
 			"wp-components"
 		],
 		"footer": true,
-		"media": "all"
+		"media": "all",
+		"strategy": ""
 	}
 ]
