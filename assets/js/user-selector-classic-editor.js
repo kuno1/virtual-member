@@ -2,7 +2,7 @@
  * User selector for classic editor
  *
  * @handle kvm-user-selector-classic-editor
- * @deps kvm-user-selector, wp-i18n, wp-components, wp-element
+ * @deps kvm-user-selector, wp-i18n, wp-element
  */
 
 const { createRoot, render, useState } = wp.element;

@@ -1,140 +1,89 @@
 # Virtual Member
 
-Virtual Member is a WordPress plugin that creates a custom post type called "member" to represent authors who are not WordPress users. This allows you to assign virtual members as authors to your posts, which is particularly useful when the actual content creator is different from the person who publishes it in WordPress.
+Virtual Member は、WordPress ユーザーではない著者を表現するための WordPress プラグインです。このプラグインは「member」という投稿タイプを作成し、それを投稿の著者として割り当てることができます。
 
-## Description
+## 説明
 
-Virtual Member provides a solution for websites that need to display content from authors who don't have WordPress user accounts. Instead of creating WordPress user accounts for every author, you can create "member" posts that contain author information such as name, profile picture, biography, and contact methods.
+このプラグインを使用すると、WordPress ユーザーアカウントを持たない著者のコンテンツを効果的に管理・表示できます。実際のコンテンツ作成者と WordPress で公開する人が異なる場合に特に役立ちます。
 
-### Key Features
+### このプラグインでできること
 
-- Create virtual members with profile pictures, descriptions, and contact information
-- Assign virtual members as authors to any post type
-- Support for single or multiple authors per post
-- Group members using taxonomies
-- Customize the member post type label and URL structure
-- Set a default member for posts without specified authors
-- Designate members as organizations or site representatives
-- Automatic Open Graph Protocol metadata for virtual members
-- Compatible with both classic editor and block editor
+- **仮想著者の作成と管理**：WordPress ユーザーアカウントを作成せずに、ゲスト著者や外部寄稿者を管理できます。
+- **投稿への著者割り当て**：任意の投稿タイプに仮想メンバーを著者として割り当てられます。
+- **複数著者のサポート**：1つの投稿に複数の著者を割り当てることができます。
+- **著者プロフィールの充実**：プロフィール画像、経歴、連絡先情報などを含む詳細な著者情報を管理できます。
+- **組織としての著者**：個人だけでなく、組織を著者として設定することも可能です。
+- **著者のグループ化**：「スタッフ」「寄稿者」「編集者」などのグループでメンバーを分類できます。
+- **著者アーカイブページ**：各仮想メンバーの投稿一覧ページを自動生成します。
+- **SEO対応**：仮想メンバーに対する Open Graph Protocol メタデータを自動生成します。
 
-### Use Cases
+### 活用シーン
 
-- Publishing content from guest authors without creating WordPress user accounts
-- Managing content where the actual author is different from the WordPress user who publishes it
-- Creating bylines for organizations rather than individuals
-- Maintaining a staff directory with author archives
+- **ゲスト投稿の管理**：外部寄稿者にWordPressアカウントを与えずに投稿を管理
+- **編集チームの運用**：実際の著者と投稿作業者が異なる場合の適切なクレジット表示
+- **組織としての発信**：企業や団体名義での投稿管理
+- **スタッフディレクトリ**：著者プロフィールと投稿を紐づけたスタッフ紹介ページの構築
 
-## Installation
+## インストール
 
-1. Upload the `virtual-member` folder to the `/wp-content/plugins/` directory
-2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Go to "Member Setting" under the "Member" menu to configure the plugin
+1. `virtual-member` フォルダを `/wp-content/plugins/` ディレクトリにアップロード
+2. WordPress の「プラグイン」メニューからプラグインを有効化
+3. 「メンバー」メニューの「メンバー設定」でプラグインを設定
 
-## Customization
+## 主な機能と使い方
 
-### Basic Settings
+### 仮想メンバーの作成と管理
 
-1. Navigate to "Member" > "Member Setting" in your WordPress admin
-2. Under "Basic Setting", select which post types should have virtual members as authors
-3. Optionally set a default member for posts without specified authors
-4. Choose whether the member post type should be public (have its own permalink)
-5. Configure the URL prefix for member archives (default is "member")
-6. Save your changes
+仮想メンバーは専用の投稿タイプとして管理され、以下の情報を設定できます：
 
-### Creating Virtual Members
+- 名前（タイトル）
+- プロフィール（本文）
+- プロフィール画像（アイキャッチ画像）
+- 連絡先情報（メタデータ）
+- グループ分類（タクソノミー）
+- 組織フラグ（個人か組織か）
 
-1. Go to "Member" > "Add New" in your WordPress admin
-2. Enter the member's name in the title field
-3. Add a description in the content editor
-4. Set a profile picture using the featured image
-5. Add contact information in the "Contact Methods" meta box
-6. Optionally mark the member as an organization or site representative
-7. Assign the member to groups using the "Group" taxonomy
-8. Publish the member
+### 投稿への著者割り当て
 
-### Assigning Members to Posts
+設定で有効にした投稿タイプでは、WordPress ユーザーの代わりに仮想メンバーを著者として割り当てることができます。単一著者モードと複数著者モードの両方をサポートしています。
 
-1. Edit a post of a type that you've enabled for virtual members
-2. Look for the "Member" meta box in the sidebar
-3. Select a member from the dropdown (single author mode) or use the search field to add multiple members (multiple author mode)
-4. Update the post
+### フロントエンド表示
 
-### Advanced Settings
+仮想メンバーが著者として割り当てられた投稿では：
 
-#### Multiple Authors
+- 著者名が仮想メンバーの名前で表示されます
+- 著者リンクが仮想メンバーのページを指します
+- 著者アバターが仮想メンバーのプロフィール画像になります
+- 著者の説明や連絡先情報が仮想メンバーから取得されます
 
-1. Go to "Member" > "Member Setting"
-2. Under "Basic Setting", select "Multiple Authors" in the "Allow Multiple Assign" option
-3. Save your changes
-4. When editing posts, you can now add multiple members as authors
+### 開発者向け機能
 
-#### Custom Contact Methods
+プラグインは以下の機能を提供し、テーマやプラグインの開発者が拡張できます：
 
-1. Go to "Member" > "Member Setting"
-2. Find the "Contact Methods" field
-3. Enter custom contact methods in CSV format (e.g., `facebook,Facebook`)
-4. Save your changes
-5. These contact methods will appear in the member editor
-
-#### Member Groups
-
-1. Go to "Member" > "Groups"
-2. Create groups to categorize your members (e.g., "Staff", "Contributors", "Editors")
-3. When creating or editing members, assign them to these groups
-
-### Frontend Display
-
-When a post has a virtual member assigned as its author:
-
-- The author name will display the member's name instead of the WordPress user
-- The author link will point to the member's page or archive
-- The author avatar will use the member's profile picture
-- Author description and contact information will come from the member post
-
-## FAQ
-
-### Can I use this plugin alongside co-authors?
-
-Yes, Virtual Member can be used alongside other author management plugins, but you may need to ensure compatibility through custom code.
-
-### How do I display custom contact methods on the frontend?
-
-The plugin automatically hooks into WordPress's author template functions. You can use standard WordPress functions like `get_the_author_meta('facebook')` to display custom contact methods.
-
-### Can I change the URL structure for member archives?
-
-Yes, go to "Member" > "Member Setting" and change the "URL Prefix" setting. After changing this setting, remember to flush your permalinks by going to Settings > Permalinks and clicking "Save Changes".
-
-### How do I set a member as the default author for all posts?
-
-1. Create a member that will serve as the default
-2. Go to "Member" > "Member Setting"
-3. Select this member in the "Default Author" dropdown
-4. Save your changes
-
-### Can I use this plugin with custom post types?
-
-Yes, you can enable virtual members for any public post type in the plugin settings.
-
-### How do I display multiple authors on the frontend?
-
-If you've enabled multiple authors, you'll need to use custom code to display all authors. You can use the `get_members()` function from the `CommonMethods` trait to retrieve all members assigned to a post.
+- 仮想メンバー情報を取得するためのAPI
+- 著者表示をカスタマイズするためのフック
+- 複数著者を表示するためのヘルパー関数
 
 ```php
-// Example code to display all authors of a post
+// 投稿のすべての著者を表示するサンプルコード
 $public_screen = \Kunoichi\VirtualMember\Ui\PublicScreen::get_instance();
 $members = $public_screen->get_members(get_the_ID());
 foreach ($members as $member) {
     echo get_the_title($member);
-    // Display other member information
+    // その他のメンバー情報を表示
 }
 ```
 
-### Is this plugin compatible with the block editor?
+## FAQ
 
-Yes, Virtual Member works with both the classic editor and the block editor (Gutenberg).
+### このプラグインを共同著者プラグインと一緒に使用できますか？
 
-### Can I designate a member as an organization?
+はい、Virtual Member は他の著者管理プラグインと併用できますが、カスタムコードで互換性を確保する必要がある場合があります。
 
-Yes, when editing a member, check the "This is organization" option in the Organization meta box. This will also affect the schema.org markup generated for the member.
+### カスタム連絡先情報をフロントエンドに表示するにはどうすればよいですか？
+
+このプラグインは WordPress の著者テンプレート関数に自動的にフックします。`get_the_author_meta('facebook')` のような標準の WordPress 関数を使用してカスタム連絡先情報を表示できます。
+
+### このプラグインはブロックエディターと互換性がありますか？
+
+はい、Virtual Member はクラシックエディターとブロックエディター（Gutenberg）の両方で動作します。
