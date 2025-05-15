@@ -3,7 +3,7 @@
 		"handle": "kvm-user-selector",
 		"path": "dist/js/user-selector.js",
 		"ext": "js",
-		"hash": "4e537767eadb0fffc3e1ad9d8477cf59",
+		"hash": "01dd7965619d52682f35f0b4ddf38d2a",
 		"version": "0.0.0",
 		"deps": [
 			"wp-element",
