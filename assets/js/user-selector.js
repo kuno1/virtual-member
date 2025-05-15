@@ -36,16 +36,14 @@ const UserComboBox = ( { onUserSelected } ) => {
 		}
 		setTimer( setTimeout( () => {
 			if ( query ) {
-				// Search authros via API
-				const fetchOptions = async () => {
-					const response = await apiFetch( { path: `/kvm/v1/authors/search?s=${ query }` } );
+				// Search authors via API
+				apiFetch( {
+					path: `/kvm/v1/authors/search?s=${ query }`,
+				} ).then( ( response ) => {
 					setUsers( response );
-				};
-				try {
-					fetchOptions();
-				} catch ( error ) {
+				} ).catch( () => {
 					setUsers( [] );
-				}
+				} );
 			} else {
 				setUsers( [] );
 			}
@@ -83,18 +81,14 @@ const UserSelectorComponent = ( { post, onUserChange } ) => {
 	const [ users, setUsers ] = useState( [] );
 
 	useEffect( () => {
-		const fetchUsers = async () => {
-			try {
-				const response = await apiFetch( {
-					path: `/kvm/v1/authors/of/${ post }`,
-				} );
-				setUsers( response );
-			} catch ( error ) {
-				// eslint-disable-next-line no-undef
-				alert( error.message || 'Error' );
-			}
-		};
-		fetchUsers();
+		apiFetch( {
+			path: `/kvm/v1/authors/of/${ post }`,
+		} ).then( ( response ) => {
+			setUsers( response );
+		} ).catch( ( error ) => {
+			// eslint-disable-next-line no-undef
+			alert( error.message || 'Error' );
+		} );
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [] );
 
@@ -116,7 +110,7 @@ const UserSelectorComponent = ( { post, onUserChange } ) => {
 
 	return (
 		<>
-			{ users.length > 0 ? (
+			{ ( users.length ) > 0 ? (
 				<div className="kvm-user-token-wrapper">
 					{
 						users.map( ( user ) => {

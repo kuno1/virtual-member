@@ -21,7 +21,7 @@ class MemberEditor extends Singleton {
 	 * @inheritDoc
 	 */
 	protected function init() {
-		add_action( 'add_meta_boxes', [ $this, 'add_meta_boxes' ] );
+		add_action( 'add_meta_boxes', [ $this, 'add_meta_boxes' ], 1 );
 		add_action( 'save_post', [ $this, 'save_post' ], 10, 2 );
 		add_action( 'save_post', [ $this, 'save_member' ], 10, 2 );
 		add_filter( 'display_post_states', [ $this, 'post_states' ], 10, 2 );
