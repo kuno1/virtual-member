@@ -63,7 +63,7 @@ class MemberEditor extends Singleton {
 	 * @return void
 	 */
 	protected function meta_box_for_single( $post ) {
-		$users            = get_posts( [
+		$users = get_posts( [
 			'post_type'      => $this->post_type(),
 			'post_status'    => 'publish',
 			'posts_per_page' => -1,

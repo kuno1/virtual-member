@@ -37,7 +37,7 @@ class PerformAs extends Singleton {
 			return;
 		}
 		// Get all virtual members.
-		$members = get_posts([
+		$members  = get_posts([
 			'post_type'      => PostType::post_type(),
 			'post_status'    => 'publish',
 			'posts_per_page' => -1,
@@ -144,7 +144,7 @@ class PerformAs extends Singleton {
 	 *
 	 * @return void
 	 */
-	public function  render_column( $column, $post_id ) {
+	public function render_column( $column, $post_id ) {
 		if ( 'kvm_perform_as' !== $column ) {
 			return;
 		}
@@ -155,6 +155,7 @@ class PerformAs extends Singleton {
 			WHERE meta_key = %s
 			  AND meta_value = %d
 SQL;
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$user_ids = $wpdb->get_col( $wpdb->prepare( $query, self::meta_key(), $post_id ) );
 		if ( ! empty( $user_ids ) ) {
 			// Search users.
@@ -184,7 +185,7 @@ SQL;
 	public static function meta_key() {
 		$blog_id = get_current_blog_id();
 		if ( 1 < $blog_id ) {
-			return sprintf(  '_kvm_perform_as_%d', get_current_blog_id() );
+			return sprintf( '_kvm_perform_as_%d', get_current_blog_id() );
 		}
 		return '_kvm_perform_as';
 	}
