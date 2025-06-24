@@ -120,12 +120,9 @@ class PublicScreen extends Singleton {
 			$meta_query = [
 				'relation' => 'OR',
 				[
-					'key'   => $this->meta_key(),
-					'value' => $kvm_id,
-				],
-				[
-					'key'   => $this->meta_key(),
-					'value' => '',
+					'key'     => $this->meta_key(),
+					'value'   => [ $kvm_id, '', '0' ],
+					'compare' => 'IN',
 				],
 				[
 					'key'     => $this->meta_key(),

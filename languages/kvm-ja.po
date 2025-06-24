@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kvm\n"
-"POT-Creation-Date: 2024-10-31 11:23+0900\n"
-"PO-Revision-Date: 2024-10-31 11:33+0900\n"
+"POT-Creation-Date: 2025-06-24 11:38+0900\n"
+"PO-Revision-Date: 2025-06-24 11:38+0900\n"
 "Last-Translator: Takahashi Fumiki <takahashi.fumiki@hametuha.co.jp>\n"
 "Language-Team: Kunoichi\n"
 "Language: ja\n"
@@ -10,33 +10,33 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.6\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_x;esc_html__;esc_html_e\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: vendor\n"
 
-#: src/Kunoichi/VirtualMember/PostType.php:80
+#: src/Kunoichi/VirtualMember/PostType.php:93
 msgid "Profile Picture"
 msgstr "プロフィール画像"
 
-#: src/Kunoichi/VirtualMember/PostType.php:81
+#: src/Kunoichi/VirtualMember/PostType.php:94
 msgid "Set profile picture"
 msgstr "プロフィール画像を設定"
 
-#: src/Kunoichi/VirtualMember/PostType.php:82
+#: src/Kunoichi/VirtualMember/PostType.php:95
 msgid "Remove profile picture"
 msgstr "プロフィール画像を削除"
 
-#: src/Kunoichi/VirtualMember/PostType.php:83
+#: src/Kunoichi/VirtualMember/PostType.php:96
 msgid "Use as profile picture"
 msgstr "プロフィール画像として使用"
 
-#: src/Kunoichi/VirtualMember/PostType.php:106
+#: src/Kunoichi/VirtualMember/PostType.php:119
 msgid "Group"
 msgstr "グループ"
 
-#: src/Kunoichi/VirtualMember/PostType.php:237
+#: src/Kunoichi/VirtualMember/PostType.php:252
 msgid "Member"
 msgstr "メンバー"
 
@@ -46,8 +46,8 @@ msgid "Contact Methods"
 msgstr "コンタクト方法"
 
 #: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:40
-msgid "Organization"
-msgstr "組織"
+msgid "Organization Setting"
+msgstr "組織設定"
 
 #: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:47
 #, php-format
@@ -85,17 +85,35 @@ msgstr "この投稿の %sを変更する場合は指定してください。"
 msgid "Web Site"
 msgstr "Webサイト"
 
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:243
-msgid "This is organization"
-msgstr "これは組織です"
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:242
+#, php-format
+msgid "This setting affects to Structured Data(JSON-LD) for the %s page."
+msgstr "この設定は %s ページの構造化データ（JSON-LD）に反映されます。"
 
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:249
-msgid "This is site representative"
-msgstr "これはサイトを代表する組織・個人です"
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:247
+#, php-format
+msgid "This %s is an organization, not a person."
+msgstr "この %s は組織であり、個人ではありません。"
 
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:271
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:253
+#, php-format
+msgid ""
+"This %s is a site representative and the profile URL would be the site URL."
+msgstr ""
+"この %s はサイトを代表する組織・個人であり、プロフィールURLがサイトのURLにな"
+"ります。"
+
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:273
 msgid "Default Member"
 msgstr "デフォルトメンバー"
+
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:276
+msgid "Organization"
+msgstr "組織"
+
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:279
+msgid "Site Representative"
+msgstr "サイトの代表"
 
 #: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:35
 msgid "Member Setting"
@@ -157,8 +175,8 @@ msgstr ""
 #: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:146
 msgid ""
 "This will add extra contact methods to the user profile editor and also add "
-"meta box of member editor. Enter key and label in CSV format. e.g. facebook,"
-"Facebook"
+"meta box of member editor. Enter key and label in CSV format. e.g. "
+"facebook,Facebook"
 msgstr ""
 "これはユーザープロフィールにコンタクト方法を追加し、それらはメンバー編集画面"
 "のメタボックにも追加されます。キーとラベルをCSV形式で入力してください。例・ "
@@ -200,9 +218,8 @@ msgstr ""
 "これはバーチャルメンバーがパブリックな投稿タイプの場合、URLの一部になりま"
 "す。"
 
-#: virtual-member.php:28
-msgid "Compose file is missing."
-msgstr "Composerのファイルがありません。"
+#~ msgid "Compose file is missing."
+#~ msgstr "Composerのファイルがありません。"
 
 #~ msgid "Staff"
 #~ msgstr "スタッフ"

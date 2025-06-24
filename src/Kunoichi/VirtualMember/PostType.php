@@ -6,7 +6,7 @@ namespace Kunoichi\VirtualMember;
 use Kunoichi\VirtualMember\Pattern\Singleton;
 use Kunoichi\VirtualMember\Rest\PostAuthorsApi;
 use Kunoichi\VirtualMember\Rest\SearchAuthorsApi;
-use Kunoichi\VirtualMember\Services\OgpProvider;
+use Kunoichi\VirtualMember\Services\StructuredDataProvider;
 use Kunoichi\VirtualMember\Ui\MemberEditor;
 use Kunoichi\VirtualMember\Ui\PublicScreen;
 use Kunoichi\VirtualMember\Ui\SettingScreen;
@@ -46,7 +46,7 @@ class PostType extends Singleton {
 		if ( ! is_admin() ) {
 			PublicScreen::get_instance();
 		}
-		OgpProvider::get_instance();
+		StructuredDataProvider::get_instance();
 		// REST API
 		PostAuthorsApi::get_instance();
 		SearchAuthorsApi::get_instance();

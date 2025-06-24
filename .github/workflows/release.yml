@@ -34,7 +34,10 @@ jobs:
         uses: tarosky/workflows/actions/distignore@main
 
       - name: Create Zip
-        run: zip -r ${{ github.event.repository.name }}.zip ./
+        run: |
+          mkdir ${{ github.event.repository.name }}
+          rsync -av --exclude=${{ github.event.repository.name }}  --exclude-from=.distignore ./ ./${{ github.event.repository.name }}/
+          zip -r ${{ github.event.repository.name }}.${{ github.ref_name }}.zip .
 
       - name: Create Release
         id: create_release

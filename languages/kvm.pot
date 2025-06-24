@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kvm\n"
-"POT-Creation-Date: 2024-10-31 11:23+0900\n"
+"POT-Creation-Date: 2025-06-24 11:38+0900\n"
 "PO-Revision-Date: 2020-01-09 19:55+0900\n"
 "Last-Translator: Takahashi Fumiki <takahashi.fumiki@hametuha.co.jp>\n"
 "Language-Team: Kunoichi\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.6\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_x;esc_html__;esc_html_e\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -19,27 +19,27 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-1: node_modules\n"
 "X-Poedit-SearchPathExcluded-2: wordpress\n"
 
-#: src/Kunoichi/VirtualMember/PostType.php:80
+#: src/Kunoichi/VirtualMember/PostType.php:93
 msgid "Profile Picture"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/PostType.php:81
+#: src/Kunoichi/VirtualMember/PostType.php:94
 msgid "Set profile picture"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/PostType.php:82
+#: src/Kunoichi/VirtualMember/PostType.php:95
 msgid "Remove profile picture"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/PostType.php:83
+#: src/Kunoichi/VirtualMember/PostType.php:96
 msgid "Use as profile picture"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/PostType.php:106
+#: src/Kunoichi/VirtualMember/PostType.php:119
 msgid "Group"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/PostType.php:237
+#: src/Kunoichi/VirtualMember/PostType.php:252
 msgid "Member"
 msgstr ""
 
@@ -49,7 +49,7 @@ msgid "Contact Methods"
 msgstr ""
 
 #: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:40
-msgid "Organization"
+msgid "Organization Setting"
 msgstr ""
 
 #: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:47
@@ -88,16 +88,31 @@ msgstr ""
 msgid "Web Site"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:243
-msgid "This is organization"
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:242
+#, php-format
+msgid "This setting affects to Structured Data(JSON-LD) for the %s page."
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:249
-msgid "This is site representative"
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:247
+#, php-format
+msgid "This %s is an organization, not a person."
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:271
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:253
+#, php-format
+msgid "This %s is a site representative and the profile URL would be the site URL."
+msgstr ""
+
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:273
 msgid "Default Member"
+msgstr ""
+
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:276
+msgid "Organization"
+msgstr ""
+
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:279
+msgid "Site Representative"
 msgstr ""
 
 #: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:35
@@ -182,8 +197,4 @@ msgstr ""
 
 #: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:188
 msgid "This will be a part of URL if virtual member is a public post type."
-msgstr ""
-
-#: virtual-member.php:28
-msgid "Compose file is missing."
 msgstr ""

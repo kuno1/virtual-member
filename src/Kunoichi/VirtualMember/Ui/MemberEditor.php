@@ -37,7 +37,7 @@ class MemberEditor extends Singleton {
 		$post_type_object = get_post_type_object( $this->post_type() );
 		if ( $this->post_type() === $post_type ) {
 			add_meta_box( 'virtual-member-meta', __( 'Contact Methods', 'kvm' ), [ $this, 'render_member_meta_box' ], $post_type, 'advanced' );
-			add_meta_box( 'virtual-member-organization', __( 'Organization', 'kvm' ), [ $this, 'render_member_meta_box_organization' ], $post_type, 'side' );
+			add_meta_box( 'virtual-member-organization', __( 'Organization Setting', 'kvm' ), [ $this, 'render_member_meta_box_organization' ], $post_type, 'side' );
 		} elseif ( $this->use_member( $post_type ) ) {
 			// Enqueue style
 			wp_enqueue_style( 'kvm-user-selector' );
@@ -236,17 +236,21 @@ class MemberEditor extends Singleton {
 	 * @return void
 	 */
 	public function render_member_meta_box_organization( $post ) {
+		$label = get_post_type_object( PostType::post_type() )->label;
 		?>
+		<p class="description">
+			<?php printf( esc_html__( 'This setting affects to Structured Data(JSON-LD) for the %s page.', 'kvm' ), esc_html( $label ) ); ?>
+		</p>
 		<p>
 			<label>
 				<input type="checkbox" name="_is_organization" value="1" <?php checked( PostType::is_organization( $post ) ); ?> />
-				<?php esc_html_e( 'This is organization', 'kvm' ); ?>
+				<?php printf( esc_html__( 'This %s is an organization, not a person.', 'kvm' ), esc_html( $label ) ); ?>
 			</label>
 		</p>
 		<p>
 			<label>
 				<input type="checkbox" name="_is_representative" value="1" <?php checked( get_post_meta( $post->ID, '_is_representative', true ), '1' ); ?> />
-				<?php esc_html_e( 'This is site representative', 'kvm' ); ?>
+				<?php printf( esc_html__( 'This %s is a site representative and the profile URL would be the site URL.', 'kvm' ), esc_html( $label ) ); ?>
 			</label>
 		</p>
 		<?php
@@ -265,10 +269,15 @@ class MemberEditor extends Singleton {
 		if ( PostType::post_type() !== $post->post_type ) {
 			return $states;
 		}
-		if ( PostType::default_user() !== $post->ID ) {
-			return $states;
+		if ( PostType::default_user() === $post->ID ) {
+			$states['kvm_default'] = __( 'Default Member', 'kvm' );
 		}
-		$states['kvm_default'] = __( 'Default Member', 'kvm' );
+		if ( PostType::is_organization( $post ) ) {
+			$states['kvm_organization'] = __( 'Organization', 'kvm' );
+		}
+		if ( PostType::is_representative( $post ) ) {
+			$states['kvm_representative'] = __( 'Site Representative', 'kvm' );
+		}
 		return $states;
 	}
 
