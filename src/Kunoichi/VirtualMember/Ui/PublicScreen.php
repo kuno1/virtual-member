@@ -120,12 +120,9 @@ class PublicScreen extends Singleton {
 			$meta_query = [
 				'relation' => 'OR',
 				[
-					'key'   => $this->meta_key(),
-					'value' => $kvm_id,
-				],
-				[
-					'key'   => $this->meta_key(),
-					'value' => '',
+					'key'     => $this->meta_key(),
+					'value'   => [ $kvm_id, '', '0' ],
+					'compare' => 'IN',
 				],
 				[
 					'key'     => $this->meta_key(),
@@ -154,6 +151,9 @@ class PublicScreen extends Singleton {
 	 * @return array
 	 */
 	public function hook_avatar( $args, $id_or_email ) {
+		if ( is_admin_bar_showing() && 0 < did_action( 'admin_bar_menu' ) && 0 === did_action( 'wp_after_admin_bar_render' ) ) {
+			return $args; // Do not override avatar in admin bar.
+		}
 		if ( is_a( $id_or_email, 'WP_User' ) ) {
 			$user_id = $id_or_email->user_id;
 			$post    = get_post();

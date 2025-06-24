@@ -3,6 +3,7 @@
 namespace Kunoichi\VirtualMember\Utility;
 
 
+use Kunoichi\VirtualMember\Helpers\PerformAs;
 use Kunoichi\VirtualMember\PostType;
 
 /**
@@ -173,7 +174,20 @@ trait CommonMethods {
 		if ( ! $post || ! $this->use_member( $post->post_type ) ) {
 			return [];
 		}
-		$author_ids = array_map( 'intval', get_post_meta( $post->ID, $this->meta_key() ) );
+		// Get saved values.
+		$author_ids = get_post_meta( $post->ID, $this->meta_key() );
+		if ( empty( $author_ids ) ) {
+			// No saved values. Try to get from perform as.
+			$author_ids = PerformAs::members();
+			// Still empty? Use default.
+			if ( empty( $author_ids ) ) {
+				$default_author = PostType::default_user();
+				if ( $default_author ) {
+					$author_ids = [ $default_author ];
+				}
+			}
+		}
+		$author_ids = array_map( 'intval', $author_ids );
 		if ( ! $author_ids ) {
 			return [];
 		}
