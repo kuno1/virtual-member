@@ -46,6 +46,19 @@ class PerformAs extends Singleton {
 		$selected = array_map( 'intval', array_filter( (array) get_user_meta( $user->ID, self::meta_key() ) ) );
 		wp_nonce_field( 'kvm_perform_as_setting', '_kvm_perform_as_nonce', false );
 		?>
+		<style>
+			.kvm-default-user-choice {
+				display: inline-block;
+				margin-right: 1em;
+				margin-bottom: 0.5em;
+				padding: 0.5em;
+				border: 1px solid #ddd;
+				background-color: #f9f9f9;
+			}
+			.kvm-default-user-choice input[type="checkbox"]:checked + span {
+				font-weight: bold;
+			}
+		</style>
 		<h2><?php esc_html_e( 'Post Setting', 'kvm' ); ?></h2>
 		<table class="form-table">
 			<tr>
@@ -54,9 +67,11 @@ class PerformAs extends Singleton {
 				</th>
 				<td>
 					<?php foreach ( $members as $member ) : ?>
-						<label>
+						<label class="kvm-default-user-choice">
 							<input type="checkbox" name="kvm_default_member[]" value="<?php echo esc_attr( $member->ID ); ?>" <?php checked( in_array( $member->ID, $selected, true ) ); ?> />
-							<?php echo esc_html( get_the_title( $member ) ); ?>
+							<span>
+								<?php echo esc_html( get_the_title( $member ) ); ?>
+							</span>
 						</label>
 					<?php endforeach; ?>
 					<p class="description">
