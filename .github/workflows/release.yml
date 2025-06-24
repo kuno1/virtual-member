@@ -30,14 +30,11 @@ jobs:
       - name: Build Plugin
         run: bash bin/build.sh ${{ github.ref }}
 
-      - name: Clean Package
-        uses: tarosky/workflows/actions/distignore@main
-
       - name: Create Zip
         run: |
           mkdir ${{ github.event.repository.name }}
           rsync -av --exclude=${{ github.event.repository.name }}  --exclude-from=.distignore ./ ./${{ github.event.repository.name }}/
-          zip -r ${{ github.event.repository.name }}.${{ github.ref_name }}.zip .
+          zip -r ${{ github.event.repository.name }}.${{ github.ref_name }}.zip ./${{ github.event.repository.name }}
 
       - name: Create Release
         id: create_release
@@ -56,6 +53,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ github.workspace }}/${{ github.event.repository.name }}.zip
-          asset_name: ${{ github.event.repository.name }}.zip
+          asset_path: ${{ github.workspace }}/${{ github.event.repository.name }}.${{ github.ref_name }}.zip
+          asset_name: ${{ github.event.repository.name }}.${{ github.ref_name }}.zip
           asset_content_type: application/zip

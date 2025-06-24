@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kvm\n"
-"POT-Creation-Date: 2025-06-24 11:38+0900\n"
+"POT-Creation-Date: 2025-06-24 14:07+0900\n"
 "PO-Revision-Date: 2020-01-09 19:55+0900\n"
 "Last-Translator: Takahashi Fumiki <takahashi.fumiki@hametuha.co.jp>\n"
 "Language-Team: Kunoichi\n"
@@ -19,99 +19,117 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-1: node_modules\n"
 "X-Poedit-SearchPathExcluded-2: wordpress\n"
 
-#: src/Kunoichi/VirtualMember/PostType.php:93
-msgid "Profile Picture"
+#: src/Kunoichi/VirtualMember/Helpers/PerformAs.php:49
+msgid "Post Setting"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/PostType.php:94
-msgid "Set profile picture"
+#: src/Kunoichi/VirtualMember/Helpers/PerformAs.php:53
+#, php-format
+msgid "Default %s"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/PostType.php:95
-msgid "Remove profile picture"
+#: src/Kunoichi/VirtualMember/Helpers/PerformAs.php:63
+#, php-format
+msgid "This will be default value when %s makes a new post."
+msgstr ""
+
+#: src/Kunoichi/VirtualMember/Helpers/PerformAs.php:132
+msgid "Used By"
 msgstr ""
 
 #: src/Kunoichi/VirtualMember/PostType.php:96
+msgid "Profile Picture"
+msgstr ""
+
+#: src/Kunoichi/VirtualMember/PostType.php:97
+msgid "Set profile picture"
+msgstr ""
+
+#: src/Kunoichi/VirtualMember/PostType.php:98
+msgid "Remove profile picture"
+msgstr ""
+
+#: src/Kunoichi/VirtualMember/PostType.php:99
 msgid "Use as profile picture"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/PostType.php:119
+#: src/Kunoichi/VirtualMember/PostType.php:122
 msgid "Group"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/PostType.php:252
+#: src/Kunoichi/VirtualMember/PostType.php:255
 msgid "Member"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:39
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:40
 #: src/Kunoichi/VirtualMember/Ui/SettingScreen.php:141
 msgid "Contact Methods"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:40
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:41
 msgid "Organization Setting"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:47
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:48
 #, php-format
 msgid "%s for this post"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:49
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:50
 #, php-format
 msgid "No %s"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:51
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:52
 #, php-format
 msgid "Type and search %s."
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:52
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:53
 msgid "Search"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:70
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:84
 msgid "Not specify"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:92
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:106
 msgid "Default"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:134
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:143
 #, php-format
 msgid "To change %s of this post, please specify."
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:201
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:210
 msgid "Web Site"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:242
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:251
 #, php-format
 msgid "This setting affects to Structured Data(JSON-LD) for the %s page."
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:247
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:256
 #, php-format
 msgid "This %s is an organization, not a person."
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:253
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:262
 #, php-format
 msgid "This %s is a site representative and the profile URL would be the site URL."
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:273
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:282
 msgid "Default Member"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:276
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:285
 msgid "Organization"
 msgstr ""
 
-#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:279
+#: src/Kunoichi/VirtualMember/Ui/MemberEditor.php:288
 msgid "Site Representative"
 msgstr ""
 
