@@ -3,6 +3,7 @@
 namespace Kunoichi\VirtualMember;
 
 
+use Kunoichi\VirtualMember\Helpers\PerformAs;
 use Kunoichi\VirtualMember\Pattern\Singleton;
 use Kunoichi\VirtualMember\Rest\PostAuthorsApi;
 use Kunoichi\VirtualMember\Rest\SearchAuthorsApi;
@@ -47,6 +48,8 @@ class PostType extends Singleton {
 			PublicScreen::get_instance();
 		}
 		StructuredDataProvider::get_instance();
+		// User Helpers.
+		PerformAs::get_instance();
 		// REST API
 		PostAuthorsApi::get_instance();
 		SearchAuthorsApi::get_instance();

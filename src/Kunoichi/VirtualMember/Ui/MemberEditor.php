@@ -3,6 +3,7 @@
 namespace Kunoichi\VirtualMember\Ui;
 
 
+use Kunoichi\VirtualMember\Helpers\PerformAs;
 use Kunoichi\VirtualMember\Pattern\Singleton;
 use Kunoichi\VirtualMember\PostType;
 use Kunoichi\VirtualMember\Utility\CommonMethods;
@@ -59,11 +60,24 @@ class MemberEditor extends Singleton {
 	 * Render meta box for single author.
 	 *
 	 * @param \WP_Post   $post  Post object.
-	 * @param \WP_Post[] $users User objects.
 	 * @return void
 	 */
-	protected function meta_box_for_single( $post, $users ) {
-		$current_id = (int) get_post_meta( $post->ID, $this->meta_key(), true );
+	protected function meta_box_for_single( $post ) {
+		$users            = get_posts( [
+			'post_type'      => $this->post_type(),
+			'post_status'    => 'publish',
+			'posts_per_page' => -1,
+		] );
+		// Get saved value.
+		$current_id = get_post_meta( $post->ID, $this->meta_key(), true );
+		if ( '' === $current_id ) {
+			$saved_ids = PerformAs::members();
+			if ( ! empty( $saved_ids ) ) {
+				// If there is saved value, use it.
+				$current_id = current( $saved_ids );
+			}
+		}
+		$current_id = (int) $current_id;
 		?>
 		<p>
 			<select name="virtual-author-id[]" id="virtual-author-id" style="box-sizing: border-box; max-width: 100%;">
@@ -121,11 +135,6 @@ class MemberEditor extends Singleton {
 	 */
 	public function render_post_meta_box( $post ) {
 		wp_nonce_field( 'virtual_member_as_author', '_kvmnonce', false );
-		$users            = get_posts( [
-			'post_type'      => $this->post_type(),
-			'post_status'    => 'publish',
-			'posts_per_page' => -1,
-		] );
 		$post_type_object = get_post_type_object( PostType::post_type() );
 		?>
 		<p class="description">
@@ -138,7 +147,7 @@ class MemberEditor extends Singleton {
 		if ( get_option( 'kvm_allow_multiple_author' ) ) {
 			$this->meta_box_for_multiple( $post );
 		} else {
-			$this->meta_box_for_single( $post, $users );
+			$this->meta_box_for_single( $post );
 		}
 	}
 
