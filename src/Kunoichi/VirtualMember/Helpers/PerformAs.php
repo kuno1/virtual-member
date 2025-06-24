@@ -43,7 +43,7 @@ class PerformAs extends Singleton {
 			'posts_per_page' => -1,
 			'post__not_in'   => [ PostType::default_user() ],
 		]);
-		$selected = array_map( 'intval', array_filter( (array) get_user_meta( $user->ID, '_kvm_perform_as' ) ) );
+		$selected = array_map( 'intval', array_filter( (array) get_user_meta( $user->ID, self::meta_key() ) ) );
 		wp_nonce_field( 'kvm_perform_as_setting', '_kvm_perform_as_nonce', false );
 		?>
 		<h2><?php esc_html_e( 'Post Setting', 'kvm' ); ?></h2>
@@ -82,13 +82,13 @@ class PerformAs extends Singleton {
 			return;
 		}
 		// Remove all.
-		delete_user_meta( $user_id, '_kvm_perform_as' );
+		delete_user_meta( $user_id, self::meta_key() );
 		// Then add new.
 		if ( ! empty( $_POST['kvm_default_member'] ) && is_array( $_POST['kvm_default_member'] ) ) {
 			// Sanitize and save.
 			$members = array_map( 'intval', array_filter( $_POST['kvm_default_member'] ) );
 			foreach ( $members as $member_id ) {
-				add_user_meta( $user_id, '_kvm_perform_as', $member_id );
+				add_user_meta( $user_id, self::meta_key(), $member_id );
 			}
 		}
 	}
@@ -106,7 +106,7 @@ class PerformAs extends Singleton {
 		if ( ! $user_id ) {
 			return [];
 		}
-		return array_map( 'intval', array_filter( get_user_meta( $user_id, '_kvm_perform_as' ) ) );
+		return array_map( 'intval', array_filter( get_user_meta( $user_id, self::meta_key() ) ) );
 	}
 
 	/**
@@ -152,10 +152,10 @@ class PerformAs extends Singleton {
 		$query = <<<SQL
 			SELECT DISTINCT user_id
 			FROM {$wpdb->usermeta}
-			WHERE meta_key = '_kvm_perform_as'
+			WHERE meta_key = %s
 			  AND meta_value = %d
 SQL;
-		$user_ids = $wpdb->get_col( $wpdb->prepare( $query, $post_id ) );
+		$user_ids = $wpdb->get_col( $wpdb->prepare( $query, self::meta_key(), $post_id ) );
 		if ( ! empty( $user_ids ) ) {
 			// Search users.
 			$users = get_users( [
@@ -171,5 +171,21 @@ SQL;
 			}
 		}
 		echo '---';
+	}
+
+	/**
+	 * Get meta key for perform as.
+	 *
+	 * This is used to save the member ID when a user performs as a virtual member.
+	 * Considering that this is a site-specific setting, it includes the current blog ID.
+	 *
+	 * @return string
+	 */
+	public static function meta_key() {
+		$blog_id = get_current_blog_id();
+		if ( 1 < $blog_id ) {
+			return sprintf(  '_kvm_perform_as_%d', get_current_blog_id() );
+		}
+		return '_kvm_perform_as';
 	}
 }
