@@ -7,7 +7,6 @@ use Kunoichi\VirtualMember\Helpers\PerformAs;
 use Kunoichi\VirtualMember\Pattern\Singleton;
 use Kunoichi\VirtualMember\PostType;
 use Kunoichi\VirtualMember\Utility\CommonMethods;
-use TYPO3\CMS\Reports\Status;
 
 /**
  * Editor for author.
