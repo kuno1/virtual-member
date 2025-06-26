@@ -4,10 +4,12 @@ namespace Kunoichi\VirtualMember;
 
 
 use Kunoichi\VirtualMember\Helpers\PerformAs;
+use Kunoichi\VirtualMember\Helpers\Rewrite;
 use Kunoichi\VirtualMember\Pattern\Singleton;
 use Kunoichi\VirtualMember\Rest\PostAuthorsApi;
 use Kunoichi\VirtualMember\Rest\SearchAuthorsApi;
 use Kunoichi\VirtualMember\Services\StructuredDataProvider;
+use Kunoichi\VirtualMember\Ui\AdminTables;
 use Kunoichi\VirtualMember\Ui\MemberEditor;
 use Kunoichi\VirtualMember\Ui\PublicScreen;
 use Kunoichi\VirtualMember\Ui\SettingScreen;
@@ -44,10 +46,13 @@ class PostType extends Singleton {
 		// Register controllers.
 		SettingScreen::get_instance();
 		MemberEditor::get_instance();
+		AdminTables::get_instance();
 		if ( ! is_admin() ) {
 			PublicScreen::get_instance();
 		}
 		StructuredDataProvider::get_instance();
+		// Rewrite rules.
+		Rewrite::get_instance();
 		// User Helpers.
 		PerformAs::get_instance();
 		// REST API
@@ -283,6 +288,31 @@ class PostType extends Singleton {
 	}
 
 	/**
+	 * Archive URL of this memer's posts.
+	 *
+	 * @param null|int|\WP_Post $post  Post type object.
+	 * @param int               $paged Page number.
+	 *
+	 * @return string|null
+	 */
+	public static function archive_url( $post = null, $paged = 1 ) {
+		$post = get_post( $post );
+		if ( ! $post || self::post_type() !== $post->post_type ) {
+			return '';
+		}
+		if ( ! is_post_type_viewable( $post->post_type ) ) {
+			return '';
+		}
+		$paged = max( 1, absint( $paged ) );
+		if ( 1 < $paged ) {
+			$url_suffix = sprintf( '%d/page/%d', $post->ID, $paged );
+		} else {
+			$url_suffix = sprintf( '%d', $post->ID );
+		}
+		return home_url( sprintf( '/%s/%s', self::get_instance()->get_post_type_rewrite(), $url_suffix ) );
+	}
+
+	/**
 	 * Is specified post is an organization.
 	 *
 	 *
@@ -310,5 +340,38 @@ class PostType extends Singleton {
 			return false;
 		}
 		return (bool) get_post_meta( $post->ID, '_is_representative', true );
+	}
+
+	/**
+	 * Get post count for the member.
+	 *
+	 * @param null|int|\WP_Post $member Member object or ID.
+	 * @param string[]          $post_type Post type names. If empty, use all post types.
+	 * @return int
+	 */
+	public static function post_count( $member = null, $post_type = [] ) {
+		$member = get_post( $member );
+		if ( ! $member || self::post_type() !== $member->post_type ) {
+			return 0;
+		}
+		if ( empty( $post_type ) ) {
+			$post_type = self::available_post_types();
+		}
+		if ( ! is_array( $post_type ) ) {
+			$post_type = [ $post_type ];
+		}
+		$query = new \WP_Query( [
+			'post_type'      => $post_type,
+			'post_status'    => 'publish',
+			'posts_per_page' => 1,
+			'meta_query'     => [
+				[
+					'key'     => '_virtual_author_id',
+					'value'   => $member->ID,
+					'compare' => '=',
+				],
+			],
+		] );
+		return $query->found_posts;
 	}
 }

@@ -23,8 +23,6 @@ class PerformAs extends Singleton {
 		// Save profile field.
 		add_action( 'personal_options_update', [ $this, 'save_profile_field' ] );
 		add_action( 'edit_user_profile_update', [ $this, 'save_profile_field' ] );
-		// Add column to member list.
-		add_action( 'admin_init', [ $this, 'add_columns_to_admin_list' ] );
 	}
 
 	/**
@@ -125,68 +123,27 @@ class PerformAs extends Singleton {
 	}
 
 	/**
-	 * Add columns to admin list.
+	 * Get users who perform as virtual member.
 	 *
-	 * @return void
+	 * @param int|\WP_Post|null $post Post ID or post object.
+	 * @return \WP_User[]
 	 */
-	public function add_columns_to_admin_list() {
-		add_filter( 'manage_' . PostType::post_type() . '_posts_columns', [ $this, 'add_column' ] );
-		add_action( 'manage_' . PostType::post_type() . '_posts_custom_column', [ $this, 'render_column' ], 10, 2 );
-	}
-
-	/**
-	 * Add column to member list.
-	 *
-	 * @param array $columns Column names.
-	 * @return array
-	 */
-	public function add_column( $columns ) {
-		$new_columns = [];
-		foreach ( $columns as $key => $value ) {
-			if ( 'date' === $key ) {
-				$new_columns['kvm_perform_as'] = __( 'Used By', 'kvm' );
-			}
-			$new_columns[ $key ] = $value;
+	public static function get_users( $post = null ) {
+		$post = get_post( $post );
+		if ( ! $post || PostType::post_type() !== $post->post_type ) {
+			return [];
 		}
-		return $new_columns;
-	}
-
-	/**
-	 * List users who use this member as post author.
-	 *
-	 * @param string $column  Column name.
-	 * @param int    $post_id Post ID.
-	 *
-	 * @return void
-	 */
-	public function render_column( $column, $post_id ) {
-		if ( 'kvm_perform_as' !== $column ) {
-			return;
-		}
-		global $wpdb;
-		$query = <<<SQL
-			SELECT DISTINCT user_id
-			FROM {$wpdb->usermeta}
-			WHERE meta_key = %s
-			  AND meta_value = %d
-SQL;
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-		$user_ids = $wpdb->get_col( $wpdb->prepare( $query, self::meta_key(), $post_id ) );
-		if ( ! empty( $user_ids ) ) {
-			// Search users.
-			$users = get_users( [
-				'include' => $user_ids,
-				'fields'  => [ 'ID', 'display_name' ],
-			] );
-			if ( ! empty( $users ) ) {
-				$names = array_map( function ( $user ) {
-					return esc_html( $user->display_name );
-				}, $users );
-				echo implode( ', ', $names );
-				return;
-			}
-		}
-		echo '---';
+		$users = new \WP_User_Query( [
+			'meta_query' => [
+				[
+					'key'     => self::meta_key(),
+					'value'   => $post->ID,
+					'compare' => '=',
+				],
+			],
+			'number'     => -1,
+		] );
+		return $users->get_results();
 	}
 
 	/**

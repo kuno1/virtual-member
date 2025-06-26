@@ -35,3 +35,9 @@ function kvm_init() {
 
 // Register hooks.
 add_action( 'plugins_loaded', 'kvm_init' );
+
+
+// Flush rewrite rules on activation.
+register_activation_hook( __FILE__, function () {
+	flush_rewrite_rules();
+} );

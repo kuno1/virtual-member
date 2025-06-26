@@ -35,7 +35,7 @@ class PostAuthorsApi extends RestApiPattern {
 	public function handle_get( $request ) {
 		return new \WP_REST_Response( array_map( function ( $post ) {
 			return $this->convert( $post );
-		}, $this->get_members( $request->get_param( 'post_id' ) ) ) );
+		}, $this->get_members( $request->get_param( 'post_id' ), -1, true ) ) );
 	}
 
 	public function permission_callback( $request ) {

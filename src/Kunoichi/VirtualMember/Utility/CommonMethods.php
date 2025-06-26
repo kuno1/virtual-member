@@ -166,17 +166,18 @@ trait CommonMethods {
 	 *
 	 * @param int|null|\WP_Post $post
 	 * @param int               $posts_per_page
+	 * @param bool              $fill_default If true, fill default member if no members are assigned.
 	 *
 	 * @return \WP_Post[]
 	 */
-	public function get_members( $post = null, $posts_per_page = -1 ) {
+	public function get_members( $post = null, $posts_per_page = -1, bool $fill_default = false ) {
 		$post = get_post( $post );
 		if ( ! $post || ! $this->use_member( $post->post_type ) ) {
 			return [];
 		}
 		// Get saved values.
 		$author_ids = get_post_meta( $post->ID, $this->meta_key() );
-		if ( empty( $author_ids ) ) {
+		if ( empty( $author_ids ) && $fill_default ) {
 			// No saved values. Try to get from perform as.
 			$author_ids = PerformAs::members();
 			// Still empty? Use default.
@@ -193,7 +194,7 @@ trait CommonMethods {
 		}
 		$author_query = new \WP_Query( [
 			'post_type'      => $this->post_type(),
-			'post_status'    => 'publish',
+			'post_status'    => ( is_admin() ? 'any' : 'publish' ),
 			'posts_per_page' => $posts_per_page,
 			'post__in'       => $author_ids,
 			'orderby'        => [ 'menu_order' => 'DESC' ],

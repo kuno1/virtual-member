@@ -24,6 +24,8 @@ class SettingScreen extends Singleton {
 	protected function init() {
 		add_action( 'admin_menu', [ $this, 'admin_menu' ] );
 		add_action( 'admin_init', [ $this, 'register_settings' ] );
+		// If post type visibility is changed, flush rewrite rules.
+		add_action( 'update_option_kvm_post_type_is_public', [ $this, 'visibility_changes' ], 10, 2 );
 	}
 
 	/**
@@ -140,10 +142,10 @@ class SettingScreen extends Singleton {
 		// Contact Methods.
 		add_settings_field( 'kvm_contact_methods', __( 'Contact Methods', 'kvm' ), function () {
 			printf(
-				'<textarea name="kvm_contact_methods" placeholder="%s">%s</textarea><p class="description">%s</p>',
+				'<textarea name="kvm_contact_methods" placeholder="%s" style="width: 100%%; box-sizing: border-box">%s</textarea><p class="description">%s<br /><code>facebook,Facebook<br />twitter,Twitter<br />instagram,Instagram</code></p>',
 				implode( '&#13;&#10;', array_map( 'esc_html', [ 'facebook,Facebook', 'twitter,Twitter' ] ) ),
 				esc_textarea( get_option( 'kvm_contact_methods' ) ),
-				esc_html__( 'This will add extra contact methods to the user profile editor and also add meta box of member editor. Enter key and label in CSV format. e.g. facebook,Facebook', 'kvm' )
+				esc_html__( 'This will add extra contact methods to the user profile editor and also add meta box of member editor. Enter key and label in CSV format.', 'kvm' ),
 			);
 		}, $this->page, 'kvm-default' );
 		register_setting( $this->page, 'kvm_contact_methods' );
@@ -189,5 +191,19 @@ class SettingScreen extends Singleton {
 			);
 		}, $this->page, 'kvm-labels' );
 		register_setting( $this->page, 'kvm_post_type_prefix' );
+	}
+
+	/**
+	 * If post type visibility is changed, flush rewrite rules.
+	 *
+	 * @param string $old_value
+	 * @param string $value
+	 *
+	 * @return void
+	 */
+	public function visibility_changes( $old_value, $value ) {
+		if ( $old_value !== $value ) {
+			flush_rewrite_rules();
+		}
 	}
 }
