@@ -24,6 +24,7 @@ class PublicScreen extends Singleton {
 		add_filter( 'author_link', [ $this, 'hook_author_archive' ], 10, 3 );
 		// Avatar.
 		add_filter( 'get_avatar_data', [ $this, 'hook_avatar' ], 10, 2 );
+		add_filter( 'tsmap_json_ld_author_type', [ $this, 'tsmap_json_ld_author_type' ], 10, 3 );
 		// Meta data.
 		add_filter( 'get_the_author_description', [ $this, 'override_description' ], 10, 2 );
 		add_filter( 'get_the_author_user_url', [ $this, 'override_user_url' ], 10, 2 );
@@ -75,6 +76,22 @@ class PublicScreen extends Singleton {
 			$link = $author_archive;
 		}
 		return $link;
+	}
+
+	/**
+	 *
+	 * @param string    $type Author type. Default 'Person'. Can also be 'Organization', etc.
+	 * @param \WP_User  $author Author user object.
+	 * @param \WP_Post  $post Post object.
+	 *
+	 * @return string
+	 */
+	public function tsmap_json_ld_author_type( $type, $author ) {
+		$member = $this->get_member_in_loop( $author->ID );
+		if ( $member && PostType::is_organization( $member->post_type ) ) {
+			$type = 'Organization';
+		}
+		return $type;
 	}
 
 	/**
