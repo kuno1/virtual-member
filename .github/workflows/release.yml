@@ -1,20 +1,23 @@
-name: Test Plugin
+name: Release
 
 on:
-  push:
-    tags:
-      - '*'
+  release:
+    types: [ published ]
+
+permissions:
+  contents: write
 
 jobs:
+
   release:
-    name: Create Release
+    name: Build & Attach Zip
     runs-on: ubuntu-latest
     environment:
       name: production
-      url: https://packagist.org/packages/kunoichi/virtual-member
+      url: ${{ github.event.release.html_url }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@main
+        uses: actions/checkout@v4
 
       - name: Setup PHP with composer v2
         uses: shivammathur/setup-php@v2
@@ -28,31 +31,15 @@ jobs:
           node-version: '20'
 
       - name: Build Plugin
-        run: bash bin/build.sh ${{ github.ref }}
+        run: bash bin/build.sh ${{ github.event.release.tag_name }}
 
-      - name: Create Zip
+      - name: Zip Archive
         run: |
           mkdir ${{ github.event.repository.name }}
-          rsync -av --exclude=${{ github.event.repository.name }}  --exclude-from=.distignore ./ ./${{ github.event.repository.name }}/
-          zip -r ${{ github.event.repository.name }}.${{ github.ref_name }}.zip ./${{ github.event.repository.name }}
+          rsync -av --exclude=${{ github.event.repository.name }} --exclude-from=.distignore ./ ./${{ github.event.repository.name }}/
+          zip -r ./${{ github.event.repository.name }}.zip ./${{ github.event.repository.name }}
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1.0.0
+      - name: Upload Release Asset
+        run: gh release upload "${{ github.event.release.tag_name }}" "./${{ github.event.repository.name }}.zip"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
-
-      - name: Upload release asset
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ github.workspace }}/${{ github.event.repository.name }}.${{ github.ref_name }}.zip
-          asset_name: ${{ github.event.repository.name }}.${{ github.ref_name }}.zip
-          asset_content_type: application/zip
